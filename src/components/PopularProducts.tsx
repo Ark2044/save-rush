@@ -149,23 +149,28 @@ export default function PopularProducts() {
 
   return (
     <section className="py-4 md:py-8">
-      <div className="max-w-7xl mx-auto border border-gray-200 rounded-lg shadow-md px-4 md:px-6 py-4">
+      <div className="max-w-7xl mx-auto border border-gray-200 rounded-xl shadow-lg px-4 md:px-6 py-4 bg-gradient-to-br from-white to-purple-50">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Popular Products
-          </h2>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-1">
+              Popular Products
+            </h2>
+            <p className="text-gray-600 text-sm">
+              Customer favorites and trending items
+            </p>
+          </div>
 
-          <div className="overflow-x-auto py-4 md:py-0">
-            <div className="flex gap-2">
+          <div className="overflow-x-auto py-4 md:py-0 scrollbar-hide">
+            <div className="flex gap-2 min-w-max">
               {popularCategories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium ${
+                  className={`whitespace-nowrap px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
                     selectedCategory === category.id
-                      ? "bg-[#6B46C1] text-white"
-                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                  } transition-colors`}
+                      ? "bg-gradient-to-r from-[#6B46C1] to-[#8B5CF6] text-white shadow-lg"
+                      : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 hover:border-purple-200"
+                  }`}
                 >
                   <span className="mr-1">{category.emoji}</span> {category.name}
                 </button>
@@ -181,7 +186,7 @@ export default function PopularProducts() {
                 key={i}
                 className="flex flex-col animate-pulse bg-white rounded-xl p-3 shadow-sm h-64"
               >
-                <div className="bg-gray-200 rounded-lg h-36 mb-2"></div>
+                <div className="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg h-36 mb-2"></div>
                 <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
                 <div className="mt-auto flex items-center justify-between">
@@ -192,29 +197,51 @@ export default function PopularProducts() {
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No products found in this category.</p>
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                />
+              </svg>
+            </div>
+            <p className="text-gray-500 font-medium">No products found in this category.</p>
+            <p className="text-gray-400 text-sm mt-1">Try selecting a different category</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {filteredProducts.map((product) => (
-              <ProductCard
+            {filteredProducts.map((product, index) => (
+              <div
                 key={product.id}
-                id={product.id}
-                name={product.name}
-                description={product.description}
-                basePrice={product.basePrice}
-                discountedPrice={product.discountedPrice}
-                imageUrl={product.imageUrl}
-                weight={
-                  product.category === "Fruits & Vegetables"
-                    ? product.description?.split("(")[1]?.split(")")[0]
-                    : product.description
-                        ?.match(/\([^)]*\)/)?.[0]
-                        ?.replace(/[()]/g, "") || "1 item"
-                }
-                inStock={product.inStock}
-              />
+                style={{ animationDelay: `${index * 50}ms` }}
+                className="animate-fade-in"
+              >
+                <ProductCard
+                  id={product.id}
+                  name={product.name}
+                  description={product.description}
+                  basePrice={product.basePrice}
+                  discountedPrice={product.discountedPrice}
+                  imageUrl={product.imageUrl}
+                  weight={
+                    product.category === "Fruits & Vegetables"
+                      ? product.description?.split("(")[1]?.split(")")[0]
+                      : product.description
+                          ?.match(/\([^)]*\)/)?.[0]
+                          ?.replace(/[()]/g, "") || "1 item"
+                  }
+                  inStock={product.inStock}
+                />
+              </div>
             ))}
           </div>
         )}

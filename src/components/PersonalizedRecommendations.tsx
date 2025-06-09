@@ -102,7 +102,7 @@ export default function PersonalizedRecommendations() {
                 key={i}
                 className="bg-white rounded-lg p-3 shadow-sm animate-pulse"
               >
-                <div className="bg-gray-200 h-32 rounded-lg mb-2"></div>
+                <div className="bg-gradient-to-br from-gray-200 to-gray-300 h-32 rounded-lg mb-2"></div>
                 <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
                 <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
                 <div className="h-6 bg-gray-200 rounded w-1/4 mt-4"></div>
@@ -119,28 +119,52 @@ export default function PersonalizedRecommendations() {
   }
 
   return (
-    <section className="py-4 md:py-6 bg-gradient-to-r from-purple-50 to-indigo-50">
+    <section className="py-4 md:py-6 bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">
-            {user ? "Picked for You" : "You Might Like"}
-          </h2>
-          <button className="text-purple-600 text-sm font-medium hover:text-purple-800">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-1">
+              {user ? "Picked for You" : "You Might Like"}
+            </h2>
+            <p className="text-gray-600 text-sm">
+              {user ? "Based on your shopping history" : "Popular choices for new customers"}
+            </p>
+          </div>
+          <button className="text-purple-600 text-sm font-medium hover:text-purple-800 flex items-center group">
             View All
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </button>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 overflow-x-auto pb-2">
-          {recommendations.map((product) => (
-            <ProductCard
+          {recommendations.map((product, index) => (
+            <div
               key={product.id}
-              id={product.id}
-              name={product.name}
-              description={product.description}
-              basePrice={product.basePrice}
-              discountedPrice={product.discountedPrice}
-              imageUrl={product.imageUrl}
-              inStock={product.inStock}
-            />
+              style={{ animationDelay: `${index * 100}ms` }}
+              className="animate-fade-in"
+            >
+              <ProductCard
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                basePrice={product.basePrice}
+                discountedPrice={product.discountedPrice}
+                imageUrl={product.imageUrl}
+                inStock={product.inStock}
+              />
+            </div>
           ))}
         </div>
       </div>

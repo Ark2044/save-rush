@@ -8,6 +8,7 @@ import {
   StandaloneSearchBox,
 } from "@react-google-maps/api";
 import { useLocation, Location } from "@/context/LocationContext";
+import { FiX, FiMapPin, FiClock } from 'react-icons/fi';
 
 // Map container styles
 const mapContainerStyle = {
@@ -286,20 +287,7 @@ export default function LocationModal() {
               onClick={closeLocationModal}
               className="text-gray-500 hover:text-gray-700"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <FiX className="h-6 w-6" />
             </button>
           </div>
           <div className="mb-4">
@@ -308,26 +296,7 @@ export default function LocationModal() {
               disabled={isLoading}
               className="flex items-center gap-2 text-[#6B46C1] font-medium"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <FiMapPin className="h-5 w-5" />
               {isLoading ? "Getting your location..." : "Use current location"}
             </button>
           </div>{" "}
@@ -362,20 +331,7 @@ export default function LocationModal() {
                       onClick={() => useRecentLocation(location)}
                       className="flex items-start gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-gray-500 mt-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
+                      <FiClock className="h-5 w-5 text-gray-500 mt-0.5" />
                       <div>
                         <p className="text-sm font-medium">
                           {location.address}

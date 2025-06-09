@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
+import { FiClock, FiPlus } from 'react-icons/fi';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 interface ProductCardProps {
   id: string;
@@ -31,6 +33,7 @@ export default function ProductCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [quantity, setQuantity] = useState(0);
 
   // Fallback placeholder image
   const fallbackImage =
@@ -53,7 +56,7 @@ export default function ProductCard({
         imageUrl: imageUrl || "/assets/images/products/milk.png",
         basePrice: discountedPrice || basePrice,
       });
-
+      setQuantity(prev => prev + 1);
       // Success will be handled by the context
     } catch (error) {
       // Error will be handled by the context
@@ -73,36 +76,35 @@ export default function ProductCard({
 
   return (
     <div
-      className="bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full"
+      className="bg-white rounded-xl p-3 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full group border border-gray-100 hover:border-purple-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image */}
-      <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-[#F7F7F7]">
-        {" "}
+      <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-gray-50 to-gray-100">
         <Image
           src={imgError ? fallbackImage : imageUrl}
           alt={name}
           fill
-          className="object-contain p-2 transition-transform duration-300"
-          style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
+          className="object-contain p-2 transition-transform duration-300 group-hover:scale-110"
           sizes="(max-width: 768px) 40vw, 20vw"
           onError={() => setImgError(true)}
         />
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+          <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">
             {discount}% OFF
           </div>
         )}
         {!inStock && (
-          <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
-            <span className="text-red-500 font-medium text-sm">
+          <div className="absolute inset-0 bg-white/90 flex items-center justify-center backdrop-blur-sm">
+            <span className="text-red-500 font-medium text-sm bg-white px-3 py-1 rounded-full shadow-md">
               Out of Stock
             </span>
           </div>
         )}
-        {deliveryTime && (
-          <div className="absolute bottom-2 left-2 bg-white text-xs px-2 py-1 rounded-full text-gray-700 shadow-sm">
+        {deliveryTime && inStock && (
+          <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-xs px-2 py-1 rounded-full text-gray-700 shadow-sm border">
+            <FiClock className="h-3 w-3 inline mr-1" />
             {deliveryTime}
           </div>
         )}
@@ -110,9 +112,9 @@ export default function ProductCard({
 
       {/* Product Info */}
       <div className="flex-grow flex flex-col">
-        <div className="text-xs text-gray-500 mb-1">{weight}</div>
+        <div className="text-xs text-gray-500 mb-1 font-medium">{weight}</div>
         <h3
-          className="font-medium text-gray-900 text-sm mb-1 line-clamp-2"
+          className="font-medium text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-purple-700 transition-colors"
           title={name}
         >
           {name}
@@ -120,7 +122,7 @@ export default function ProductCard({
 
         <div className="mt-auto flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <span className="font-bold text-sm">
+            <span className="font-bold text-sm text-gray-900">
               ₹{discountedPrice || basePrice}
             </span>
             {discountedPrice && (
@@ -133,40 +135,24 @@ export default function ProductCard({
           <button
             onClick={handleAddToCart}
             disabled={!inStock || isAdding}
-            className={`px-3 py-1 text-xs font-medium rounded-lg transition-all duration-300 flex items-center justify-center min-w-[60px] ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 flex items-center justify-center min-w-[60px] transform hover:scale-105 ${
               !inStock
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : isAdding
-                ? "bg-green-100 text-green-800"
-                : "bg-[#9BF00B] text-black hover:bg-[#8AE00A]"
+                ? "bg-green-100 text-green-800 scale-105"
+                : "bg-gradient-to-r from-[#9BF00B] to-[#8AE00A] text-black hover:from-[#8AE00A] hover:to-[#7BD009] shadow-sm hover:shadow-md"
             }`}
           >
             {isAdding ? (
               <span className="flex items-center gap-1">
-                <svg
-                  className="animate-spin h-3 w-3 text-green-800"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
+                <AiOutlineLoading3Quarters className="animate-spin h-3 w-3 text-green-800" />
                 Adding
               </span>
             ) : (
-              "ADD"
+              <span className="flex items-center gap-1">
+                <FiPlus className="h-3 w-3" />
+                ADD
+              </span>
             )}
           </button>
         </div>
