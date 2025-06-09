@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLocation } from "@/context/LocationContext";
 import { FiClock, FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
 import ScheduleOrderModal from "./ScheduleOrderModal";
+import toast from "react-hot-toast";
 
 // Slide data for the carousel
 const slides = [
