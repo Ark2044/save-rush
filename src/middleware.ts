@@ -63,18 +63,20 @@ export function middleware(request: NextRequest) {
 
   // If the user is authenticated and trying to access login page
   if (tokenCookie && isAuthRoute) {
-    console.log("User already authenticated. Redirecting to home");
+    console.log("User already authenticated. Redirecting from auth page");
 
     // Check if there's a return URL in the query parameters
     const { searchParams } = new URL(request.url);
     const returnUrl = searchParams.get("returnUrl");
 
     if (returnUrl) {
+      console.log("Redirecting to return URL:", returnUrl);
       return NextResponse.redirect(
         new URL(decodeURIComponent(returnUrl), request.url)
       );
     }
 
+    // Default redirect to home if no return URL
     return NextResponse.redirect(new URL("/", request.url));
   }
 

@@ -22,19 +22,24 @@ export default function AuthenticatedLayout({
         console.log("Auth check - User state:", !!user);
         console.log("Auth check - Guest state:", isGuest);
 
-        // Double-check cookie existence as a fallback
-        const token = getCookie("firebase-token");
-        console.log("Auth check - Token in cookie:", !!token);
+        // Primary check: Firebase user exists (JWT token is optional)
+        if (!user) {
+          // Double-check cookie existence as a fallback
+          const token = getCookie("firebase-token");
+          console.log("Auth check - Token in cookie:", !!token);
 
-        if (!user && !token) {
-          console.log("User not authenticated, redirecting to login");
-          setAuthError("Please log in to access this page");
-          // Save current URL to redirect back after login
-          const currentPath = window.location.pathname;
-          router.push(`/login?returnUrl=${encodeURIComponent(currentPath)}`);
-        } else {
-          setIsCheckingAuth(false);
+          if (!token) {
+            console.log("User not authenticated, redirecting to login");
+            setAuthError("Please log in to access this page");
+            // Save current URL to redirect back after login
+            const currentPath = window.location.pathname;
+            router.push(`/login?returnUrl=${encodeURIComponent(currentPath)}`);
+            return;
+          }
         }
+        
+        // User is authenticated (either Firebase user exists or token exists)
+        setIsCheckingAuth(false);
       }
     };
 

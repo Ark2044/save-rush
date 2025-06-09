@@ -108,6 +108,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (user) {
         // User is authenticated, not a guest
         setIsGuest(false);
+        
+        // ALWAYS set firebase-token cookie when user is authenticated
+        setCookie("firebase-token", "authenticated", 604800);
+        
         try {
           console.log("Exchanging Firebase token for JWT token");
 
@@ -116,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           if (backendResponse.token) {
             console.log("Setting JWT token in cookie");
-            setAuthCookie(backendResponse.token);
+            setCookie("jwt-token", backendResponse.token, 604800);
 
             // Set up token refresh timer (JWT tokens typically have shorter expiry)
             refreshTimer = setInterval(async () => {
@@ -127,7 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     auth.currentUser
                   );
                   if (refreshResponse.token) {
-                    setAuthCookie(refreshResponse.token);
+                    setCookie("jwt-token", refreshResponse.token, 604800);
                     console.log("JWT token refreshed successfully");
                   }
                 } catch (error) {
@@ -162,6 +166,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
           );
           // Continue with Firebase authentication even if backend fails
+          // firebase-token cookie is already set above
         }
       } else {
         // Not logged in, check if guest

@@ -31,7 +31,18 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (user) router.push("/");
+    if (user) {
+      // Check if there's a return URL in the query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const returnUrl = urlParams.get('returnUrl');
+      
+      if (returnUrl) {
+        console.log('Redirecting to return URL:', returnUrl);
+        router.push(decodeURIComponent(returnUrl));
+      } else {
+        router.push("/");
+      }
+    }
 
     // Debug the navigation issue
     debugNavigationIssue();
