@@ -1,3 +1,4 @@
+"use client";
 import Categories from "@/components/Categories";
 import MakeYourMeal from "@/components/MakeYourMeal";
 import HeroBanner from "@/components/HeroBanner";
