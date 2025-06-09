@@ -3,7 +3,6 @@ import Categories from "@/components/Categories";
 import MakeYourMeal from "@/components/MakeYourMeal";
 import HeroBanner from "@/components/HeroBanner";
 import PopularProducts from "@/components/PopularProducts";
-import QuickDeliveryBanner from "@/components/QuickDeliveryBanner";
 import DailyDeals from "@/components/DailyDeals";
 import AppDownloadBanner from "@/components/AppDownloadBanner";
 import PersonalizedRecommendations from "@/components/PersonalizedRecommendations";
@@ -23,7 +22,6 @@ export default function Home() {
         <Categories />
         <PersonalizedRecommendations />
         <DailyDeals />
-        <QuickDeliveryBanner />
         <PopularProducts />
         <RecentlyViewed />
         <MakeYourMeal />
