@@ -321,7 +321,7 @@ export default function Header({ onOpenCart }: HeaderProps) {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col items-start hidden sm:block">
+                <div className="flex flex-col items-start sm:block">
                   <span className="text-xs sm:text-sm font-medium">
                     {totalItems > 0 ? `${totalItems} items` : "Cart"}
                   </span>
@@ -341,7 +341,7 @@ export default function Header({ onOpenCart }: HeaderProps) {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col items-start hidden sm:block">
+                <div className="flex flex-col items-start sm:block">
                   <span className="text-xs sm:text-sm font-medium">
                     {totalItems > 0 ? `${totalItems} items` : "Cart"}
                   </span>

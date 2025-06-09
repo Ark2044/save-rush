@@ -122,79 +122,66 @@ export default function Categories() {
   }
 
   return (
-    <section className="py-4 sm:py-6 md:py-10">
-      <div className="container-responsive max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
-              Shop by Category
-            </h2>
-            <p className="text-gray-600 text-xs sm:text-sm">
-              Discover fresh groceries and daily essentials
-            </p>
-          </div>
-          <Link
-            href="/categories"
-            className="text-xs sm:text-sm text-[#6B46C1] hover:text-[#542bc9] font-medium flex items-center group btn-touch"
-          >
-            <span className="hidden xs:inline">View All</span>
-            <span className="xs:hidden">All</span>
-            <FiChevronRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-          </Link>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Shop by Category
+          </h2>
+          <p className="text-gray-600">
+            Discover fresh groceries and daily essentials
+          </p>
         </div>
-
-        {/* Responsive category grid with horizontal scroll on mobile */}
-        <div className="overflow-x-auto pb-2 sm:pb-4 -mx-2 sm:-mx-4 px-2 sm:px-4 scrollbar-hide">
-          <div className="grid grid-cols-4 xs:grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 xs:gap-3 sm:gap-4 min-w-max md:min-w-0">
-            {categories.map((category, index) => (
-              <Link
-                key={category.id}
-                href={`/category/${category.title
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-                className="flex flex-col items-center transition-all hover:scale-105 group"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 relative mb-2 sm:mb-3 overflow-hidden rounded-full border-2 border-white shadow-lg theme-gradient-card group-hover:shadow-xl transition-all duration-300 group-hover:border-[#6B46C1]">
-                  {category.subCategories &&
-                  category.subCategories[0]?.items &&
-                  category.subCategories[0]?.items[0]?.imageUrl ? (
-                    <Image
-                      src={category.subCategories[0].items[0].imageUrl}
-                      alt={category.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-300 p-1"
-                      sizes="(max-width: 475px) 48px, (max-width: 640px) 56px, (max-width: 768px) 64px, 80px"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.style.display = "none";
-                        // Create a fallback element
-                        const fallback = document.createElement("div");
-                        fallback.className =
-                          "w-full h-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center";
-                        fallback.innerHTML = `<span class="text-purple-500 text-sm sm:text-lg font-bold">${category.title.charAt(
-                          0
-                        )}</span>`;
-                        target.parentNode?.appendChild(fallback);
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center">
-                      <span className="text-purple-500 text-sm sm:text-lg font-bold">
-                        {category.title.charAt(0)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <span className="text-xs sm:text-sm font-medium text-center text-gray-800 line-clamp-2 max-w-[60px] xs:max-w-[70px] sm:max-w-[80px] group-hover:text-[#6B46C1] transition-colors leading-tight">
-                  {category.title}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Link
+          href="/categories"
+          className="text-sm text-[#6B46C1] hover:text-[#542bc9] font-medium flex items-center group btn-touch"
+        >
+          View All
+          <FiChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
-    </section>
+
+      {/* Responsive category grid */}
+      <div className="grid grid-cols-4 xs:grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
+        {categories.map((category, index) => (
+          <Link
+            key={category.id}
+            href={`/category/${category.title
+              .toLowerCase()
+              .replace(/\s+/g, "-")}`}
+            className="flex flex-col items-center transition-all hover:scale-105 group"
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <div className="w-16 h-16 md:w-20 md:h-20 relative mb-3 overflow-hidden rounded-full border-2 border-white shadow-lg bg-gradient-to-br from-purple-100 to-indigo-100 group-hover:shadow-xl transition-all duration-300 group-hover:border-[#6B46C1]">
+              {category.subCategories &&
+              category.subCategories[0]?.items &&
+              category.subCategories[0]?.items[0]?.imageUrl ? (
+                <Image
+                  src={category.subCategories[0].items[0].imageUrl}
+                  alt={category.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300 p-1"
+                  sizes="80px"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.style.display = "none";
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-purple-500 text-lg font-bold">
+                    {category.title.charAt(0)}
+                  </span>
+                </div>
+              )}
+            </div>
+            <span className="text-sm font-medium text-center text-gray-800 line-clamp-2 max-w-[80px] group-hover:text-[#6B46C1] transition-colors leading-tight">
+              {category.title}
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }

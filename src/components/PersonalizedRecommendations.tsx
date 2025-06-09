@@ -4,6 +4,7 @@ import ProductCard from "./ProductCard";
 import { Product } from "@/context/SearchContext";
 import { useAuth } from "@/context/AuthContext";
 import { FiUser, FiTrendingUp, FiChevronRight } from "react-icons/fi";
+import Link from "next/link";
 
 export default function PersonalizedRecommendations() {
   const [recommendations, setRecommendations] = useState<Product[]>([]);
@@ -125,53 +126,45 @@ export default function PersonalizedRecommendations() {
   }
 
   return (
-    <section className="py-4 md:py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="theme-gradient-card rounded-xl shadow-lg p-4 md:p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                {user ? (
-                  <FiUser className="w-5 h-5 text-white" />
-                ) : (
-                  <FiTrendingUp className="w-5 h-5 text-white" />
-                )}
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-1">
-                  {user ? "Picked for You" : "You Might Like"}
-                </h2>
-                <p className="text-gray-600 text-sm">
-                  {user ? "Based on your shopping history" : "Popular choices for new customers"}
-                </p>
-              </div>
-            </div>
-            <button className="text-purple-600 text-sm font-medium hover:text-purple-800 flex items-center group transition-colors">
-              View All
-              <FiChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 overflow-x-auto pb-2">
-            {recommendations.map((product, index) => (
-              <div
-                key={product.id}
-                style={{ animationDelay: `${index * 100}ms` }}
-                className="animate-fade-in"
-              >
-                <ProductCard
-                  id={product.id}
-                  name={product.name}
-                  description={product.description}
-                  basePrice={product.basePrice}
-                  discountedPrice={product.discountedPrice}
-                  imageUrl={product.imageUrl}
-                  inStock={product.inStock}
-                />
-              </div>
-            ))}
-          </div>
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            {user ? "Recommended for You" : "Trending Products"}
+          </h2>
+          <p className="text-gray-600">
+            {user ? "Based on your shopping history" : "Popular items right now"}
+          </p>
         </div>
+
+        <Link
+          href="/recommendations"
+          className="text-sm text-[#6B46C1] hover:text-[#542bc9] font-medium flex items-center group"
+        >
+          View All
+          <FiChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
-    </section>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {recommendations.map((product, index) => (
+          <div
+            key={product.id}
+            style={{ animationDelay: `${index * 100}ms` }}
+            className="animate-fade-in"
+          >
+            <ProductCard
+              id={product.id}
+              name={product.name}
+              description={product.description}
+              basePrice={product.basePrice}
+              discountedPrice={product.discountedPrice}
+              imageUrl={product.imageUrl}
+              inStock={product.inStock}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

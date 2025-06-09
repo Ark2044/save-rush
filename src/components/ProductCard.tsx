@@ -153,8 +153,7 @@ export default function ProductCard({
             ) : (
               <span className="flex items-center gap-1">
                 <FiPlus className="h-2.5 w-2.5 xs:h-3 xs:w-3" />
-                <span className="hidden xs:inline">ADD</span>
-                <span className="xs:hidden">+</span>
+                ADD
               </span>
             )}
           </button>

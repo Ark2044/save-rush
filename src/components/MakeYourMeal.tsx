@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { graphqlClient } from "@/lib/graphql";
 import { useCart } from "@/context/CartContext";
+import { FiPlus } from "react-icons/fi";
 
 interface MealCategory {
   id: string;
@@ -121,121 +122,120 @@ export default function MakeYourMeal() {
   }
 
   return (
-    <section className="py-6 md:py-10 bg-gradient-to-r from-purple-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              Build Your Own Meal
-            </h2>
-            <p className="text-gray-600 max-w-xl">
-              Choose from fresh ingredients to create your perfect meal. We'll
-              deliver everything you need!
-            </p>
-          </div>
-
-          <div className="mt-4 md:mt-0 overflow-x-auto scrollbar-hide py-2">
-            <div className="flex gap-2">
-              {mealCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.name)}
-                  className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium flex items-center gap-2 ${
-                    selectedCategory === category.name
-                      ? "bg-purple-600 text-white shadow-md"
-                      : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-200"
-                  } transition-all`}
-                >
-                  <Image
-                    src={category.image}
-                    width={20}
-                    height={20}
-                    alt={category.name}
-                    className="object-contain"
-                  />
-                  {category.name}
-                </button>
-              ))}
-            </div>
-          </div>
+    <div>
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Build Your Own Meal
+          </h2>
+          <p className="text-gray-600 max-w-xl">
+            Choose from fresh ingredients to create your perfect meal. We'll
+            deliver everything you need!
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {pizzaIngredients.map((ingredient) => (
-              <div
-                key={ingredient.id}
-                className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full transform hover:scale-105"
+        <div className="mt-4 md:mt-0 overflow-x-auto scrollbar-hide py-2">
+          <div className="flex gap-2">
+            {mealCategories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.name)}
+                className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium flex items-center gap-2 ${
+                  selectedCategory === category.name
+                    ? "bg-gradient-to-r from-[#6B46C1] to-[#8B5CF6] text-white shadow-md"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
+                } transition-all`}
               >
-                <div className="p-3 flex-grow flex flex-col">
-                  <div className="relative h-24 mb-3 bg-gray-50 rounded-lg overflow-hidden">
-                    {" "}
-                    <Image
-                      src={ingredient.image}
-                      alt={ingredient.name}
-                      fill
-                      sizes="(max-width: 768px) 40vw, 20vw"
-                      className="object-contain p-2"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNzBWMTMwTTcwIDEwMEgxMzAiIHN0cm9rZT0iI0Q5REREOCIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHN2Zz4=";
-                      }}
-                    />
-                  </div>
-
-                  <h3
-                    className="font-medium text-gray-900 text-sm mb-1"
-                    title={ingredient.name}
-                  >
-                    {ingredient.name}
-                  </h3>
-
-                  <div className="text-xs text-gray-500 mb-3">
-                    {ingredient.weight}
-                  </div>
-
-                  <div className="mt-auto flex items-center justify-between">
-                    <span className="font-bold text-sm">
-                      ₹{ingredient.price}
-                    </span>
-
-                    <button
-                      onClick={async () => {
-                        try {
-                          await addToCart({
-                            id: ingredient.id,
-                            name: ingredient.name,
-                            imageUrl: ingredient.image,
-                            basePrice: ingredient.price,
-                          });
-                          // Success toast is handled in cart context
-                        } catch (error) {
-                          console.error("Error adding to cart:", error);
-                          // Error toast is handled in cart context
-                        }
-                      }}
-                      className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-all"
-                    >
-                      ADD
-                    </button>
-                  </div>
-                </div>
-              </div>
+                <Image
+                  src={category.image}
+                  width={20}
+                  height={20}
+                  alt={category.name}
+                  className="object-contain"
+                />
+                {category.name}
+              </button>
             ))}
-          </div>
-
-          <div className="mt-8 text-center">
-            <Link
-              href="/make-meal"
-              className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg font-medium"
-            >
-              Explore All Recipes
-            </Link>
           </div>
         </div>
       </div>
-    </section>
+
+      <div className="bg-gray-50 p-6 rounded-xl">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {pizzaIngredients.map((ingredient) => (
+            <div
+              key={ingredient.id}
+              className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full transform hover:scale-105"
+            >
+              <div className="p-3 flex-grow flex flex-col">
+                <div className="relative h-24 mb-3 bg-gray-50 rounded-lg overflow-hidden">
+                  {" "}
+                  <Image
+                    src={ingredient.image}
+                    alt={ingredient.name}
+                    fill
+                    sizes="(max-width: 768px) 40vw, 20vw"
+                    className="object-contain p-2"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src =
+                        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNzBWMTMwTTcwIDEwMEgxMzAiIHN0cm9rZT0iI0Q5REREOCIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHN2Zz4=";
+                    }}
+                  />
+                </div>
+
+                <h3
+                  className="font-medium text-gray-900 text-sm mb-1"
+                  title={ingredient.name}
+                >
+                  {ingredient.name}
+                </h3>
+
+                <div className="text-xs text-gray-500 mb-3">
+                  {ingredient.weight}
+                </div>
+
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="font-bold text-sm">
+                    ₹{ingredient.price}
+                  </span>
+
+                  <button
+                    onClick={async () => {
+                      try {
+                        await addToCart({
+                          id: ingredient.id,
+                          name: ingredient.name,
+                          imageUrl: ingredient.image,
+                          basePrice: ingredient.price,
+                        });
+                        // Success toast is handled in cart context
+                      } catch (error) {
+                        console.error("Error adding to cart:", error);
+                        // Error toast is handled in cart context
+                      }
+                    }}
+                    className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transition-all flex items-center gap-1"
+                  >
+                    <FiPlus className="h-3 w-3" />
+                    ADD
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/make-meal"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-[#6B46C1] to-[#8B5CF6] text-white rounded-full hover:shadow-lg transition-all shadow-md font-medium"
+          >
+            Explore All Recipes
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
