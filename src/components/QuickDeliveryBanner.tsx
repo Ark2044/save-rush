@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLocation } from "@/context/LocationContext";
+import { FiZap, FiMapPin, FiClock } from "react-icons/fi";
 
 export default function QuickDeliveryBanner() {
   const { currentLocation, openLocationModal } = useLocation();
@@ -28,7 +29,7 @@ export default function QuickDeliveryBanner() {
     <section className="py-6 md:py-8">
       <div className="max-w-7xl mx-auto px-4">
         <div
-          className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-[#6B46C1] via-[#8A63D2] to-[#A855F7] rounded-xl p-6 text-white cursor-pointer relative overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-500"
+          className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-[#6B46C1] via-[#8A63D2] to-[#A855F7] rounded-xl p-6 text-white cursor-pointer relative overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02]"
           onClick={openLocationModal}
         >
           {/* Enhanced Decorative elements */}
@@ -38,25 +39,13 @@ export default function QuickDeliveryBanner() {
 
           <div className="flex-1 z-10">
             <div className="inline-flex items-center gap-2 bg-purple-800 bg-opacity-80 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full mb-3 animate-pulse">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+              <FiZap className="w-3 h-3" />
               {currentLocation
                 ? "Delivering to your area"
                 : "Set your location"}
             </div>
-            <h2 className="text-xl md:text-3xl font-bold mb-2 drop-shadow-lg">
+            <h2 className="text-xl md:text-3xl font-bold mb-2 drop-shadow-lg flex items-center gap-2">
+              <FiZap className="w-6 h-6 md:w-8 md:h-8 text-[#9BF00B]" />
               Ultra-fast Delivery!
             </h2>
             <p className="text-sm md:text-base opacity-90 mb-4 md:mb-0 max-w-xl drop-shadow-sm">
@@ -67,37 +56,22 @@ export default function QuickDeliveryBanner() {
           </div>
 
           <div className="flex flex-col items-center z-10">
-            <div className="flex flex-col items-center p-3 md:p-5 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 shadow-lg">
-              <div className="text-5xl md:text-6xl font-bold text-[#9BF00B] drop-shadow-lg animate-pulse">
+            <div className="flex flex-col items-center p-3 md:p-5 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm border border-white border-opacity-30 shadow-lg group-hover:bg-opacity-30 transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <FiClock className="w-5 h-5 text-[#9BF00B]" />
+                <span className="text-sm font-medium">Delivery in</span>
+              </div>
+              <div className="text-4xl md:text-5xl font-bold text-[#9BF00B] drop-shadow-lg animate-pulse">
                 {`${countdown.minutes}:${countdown.seconds
                   .toString()
                   .padStart(2, "0")}`}
               </div>
-              <div className="text-sm md:text-base uppercase tracking-wider font-medium drop-shadow-sm">
-                minute delivery
+              <div className="text-xs md:text-sm uppercase tracking-wider font-medium drop-shadow-sm">
+                minutes
               </div>
             </div>
             <button className="mt-4 bg-white text-[#6B46C1] px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-100 transition-all transform hover:scale-105 hover:shadow-lg flex items-center group">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-2 group-hover:animate-bounce"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <FiMapPin className="w-4 h-4 mr-2 group-hover:animate-bounce" />
               {currentLocation ? "Change Location" : "Select Location"}
             </button>
           </div>

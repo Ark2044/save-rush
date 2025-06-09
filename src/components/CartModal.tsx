@@ -8,7 +8,8 @@ import { addressService, cartService, paymentService } from "@/services";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import GuestCheckoutPrompt from "./GuestCheckoutPrompt";
-import { FiEdit2 } from 'react-icons/fi';
+import ScheduleOrderModal from "./ScheduleOrderModal";
+import { FiEdit2, FiClock } from 'react-icons/fi';
 
 interface Address {
   id: string;
@@ -49,6 +50,8 @@ export default function CartModal({ open, onClose }: CartModalProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     string | null
   >(null);
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
+  const [scheduledDelivery, setScheduledDelivery] = useState<{date: string, time: string} | null>(null);
   const {
     items,
     updateQuantity,
@@ -142,6 +145,40 @@ export default function CartModal({ open, onClose }: CartModalProps) {
 
     fetchAddressesAndPayments();
   }, [user, open]);
+
+  const handleScheduleDelivery = (date: string, time: string) => {
+    setScheduledDelivery({ date, time });
+    toast.success(`Delivery scheduled for ${new Date(date).toLocaleDateString()} at ${time}`);
+  };
+
+  const formatScheduledTime = (date: string, time: string) => {
+    const dateObj = new Date(date);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    let dateStr;
+    if (date === today.toISOString().split('T')[0]) {
+      dateStr = "Today";
+    } else if (date === tomorrow.toISOString().split('T')[0]) {
+      dateStr = "Tomorrow";
+    } else {
+      dateStr = dateObj.toLocaleDateString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+
+    const [hour, minute] = time.split(':');
+    const hourNum = parseInt(hour);
+    const ampm = hourNum >= 12 ? 'PM' : 'AM';
+    const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
+    const timeStr = `${displayHour}:${minute} ${ampm}`;
+
+    return `${dateStr} at ${timeStr}`;
+  };
+
   const handleProceedToCheckout = async () => {
     if (!user) {
       onClose();
@@ -166,7 +203,7 @@ export default function CartModal({ open, onClose }: CartModalProps) {
 
     try {
       setCheckoutLoading(true);
-      const checkoutToast = toast.loading("Processing your order..."); // Call the cart checkout service
+      const checkoutToast = toast.loading("Processing your order...");
       const response = await cartService.checkout({
         deliveryAddress: selectedAddress,
         paymentMethod: selectedPaymentMethod,
@@ -200,6 +237,7 @@ export default function CartModal({ open, onClose }: CartModalProps) {
     // Navigate to the address page
     router.push("/account/addresses?action=new");
   };
+
   // Handle coupon selection
   const handleSelectCoupon = (couponCode: string) => {
     setSelectedCoupon(couponCode);
@@ -383,24 +421,44 @@ export default function CartModal({ open, onClose }: CartModalProps) {
                   )}
                 </div>
               )}
-              {/* Delivery Instructions */}
+              {/* Delivery Scheduling */}
               {items.length > 0 && (
                 <div className="bg-white rounded-xl p-6 mb-6 shadow">
-                  <div className="font-semibold mb-3 text-gray-800">
-                    Delivery instructions
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    {" "}
-                    <button className="py-2 rounded-lg bg-[#E9E3FF] text-[#6B46C1] font-medium cursor-pointer">
-                      Leave at door
+                  <div className="flex justify-between items-center mb-3">
+                    <div className="font-semibold text-gray-800">
+                      Delivery Time
+                    </div>
+                    <button
+                      className="text-[#6B46C1] font-medium text-sm cursor-pointer"
+                      onClick={() => setScheduleModalOpen(true)}
+                    >
+                      {scheduledDelivery ? "Change" : "Schedule"}
                     </button>
-                    <button className="py-2 rounded-lg bg-[#E9E3FF] text-[#6B46C1] font-medium cursor-pointer">
-                      Do not ring the bell
-                    </button>
-                    <button className="py-2 rounded-lg bg-[#E9E3FF] text-[#6B46C1] font-medium cursor-pointer">
-                      Beware of pets
-                    </button>{" "}
                   </div>
+                  
+                  {scheduledDelivery ? (
+                    <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200">
+                      <div className="flex items-center gap-2 text-[#6B46C1]">
+                        <FiClock className="h-5 w-5" />
+                        <span className="font-medium">
+                          {formatScheduledTime(scheduledDelivery.date, scheduledDelivery.time)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <button 
+                        className="py-3 rounded-lg bg-[#E9E3FF] text-[#6B46C1] font-medium cursor-pointer flex items-center justify-center gap-2"
+                        onClick={() => setScheduleModalOpen(true)}
+                      >
+                        <FiClock className="h-4 w-4" />
+                        Schedule for later
+                      </button>
+                      <div className="text-center text-sm text-gray-500">
+                        Or get it delivered ASAP
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
               {/* Addresses */}
@@ -542,6 +600,13 @@ export default function CartModal({ open, onClose }: CartModalProps) {
           </div>
         )}
       </aside>
+
+      {/* Schedule Order Modal */}
+      <ScheduleOrderModal
+        open={scheduleModalOpen}
+        onClose={() => setScheduleModalOpen(false)}
+        onSchedule={handleScheduleDelivery}
+      />
     </>
   );
 }

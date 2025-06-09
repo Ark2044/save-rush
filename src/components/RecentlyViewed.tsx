@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { Product } from "@/context/SearchContext";
+import { FiClock, FiTrash2 } from "react-icons/fi";
 
 export default function RecentlyViewed() {
   const [viewedItems, setViewedItems] = useState<Product[]>([]);
@@ -77,25 +78,35 @@ export default function RecentlyViewed() {
     fetchRecentItems();
   }, []);
 
+  const clearHistory = () => {
+    setViewedItems([]);
+    // In a real app: localStorage.removeItem('recentlyViewed');
+  };
+
   if (loading) {
     return (
-      <section className="py-4 md:py-6">
+      <section className="py-4 md:py-8">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Recently Viewed</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-lg p-3 shadow-sm animate-pulse"
-              >
-                <div className="bg-gray-200 h-32 rounded-lg mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-6 bg-gray-200 rounded w-1/4 mt-4"></div>
+          <div className="theme-gradient-card rounded-xl shadow-lg p-4 md:p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                <div className="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
               </div>
-            ))}
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-lg p-3 shadow-sm animate-pulse"
+                >
+                  <div className="bg-gray-200 h-32 rounded-lg mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                  <div className="h-6 bg-gray-200 rounded w-1/4 mt-4"></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -107,29 +118,50 @@ export default function RecentlyViewed() {
   }
 
   return (
-    <section className="py-4 md:py-6">
+    <section className="py-4 md:py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Recently Viewed
-          </h2>
-          <button className="text-purple-600 text-sm font-medium hover:text-purple-800">
-            Clear History
-          </button>
-        </div>{" "}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-x-auto pb-2">
-          {viewedItems.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              description={product.description}
-              basePrice={product.basePrice}
-              discountedPrice={product.discountedPrice}
-              imageUrl={product.imageUrl}
-              inStock={product.inStock}
-            />
-          ))}
+        <div className="theme-gradient-card rounded-xl shadow-lg p-4 md:p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center shadow-lg">
+                <FiClock className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-1">
+                  Recently Viewed
+                </h2>
+                <p className="text-gray-600 text-sm">
+                  Items you've looked at recently
+                </p>
+              </div>
+            </div>
+            <button 
+              onClick={clearHistory}
+              className="text-red-600 text-sm font-medium hover:text-red-800 flex items-center gap-1 transition-colors group"
+            >
+              <FiTrash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              Clear History
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-x-auto pb-2">
+            {viewedItems.map((product, index) => (
+              <div
+                key={product.id}
+                style={{ animationDelay: `${index * 100}ms` }}
+                className="animate-fade-in"
+              >
+                <ProductCard
+                  id={product.id}
+                  name={product.name}
+                  description={product.description}
+                  basePrice={product.basePrice}
+                  discountedPrice={product.discountedPrice}
+                  imageUrl={product.imageUrl}
+                  inStock={product.inStock}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

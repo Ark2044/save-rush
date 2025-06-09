@@ -190,7 +190,7 @@ export default function DailyDeals() {
 
   return (
     <section className="py-4 md:py-8">
-      <div className="max-w-7xl mx-auto border border-gray-200 rounded-xl shadow-lg px-4 md:px-6 py-4 bg-gradient-to-br from-white to-gray-50">
+      <div className="max-w-7xl mx-auto theme-gradient-card rounded-xl shadow-lg px-4 md:px-6 py-4">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-1">Daily Deals</h2>
@@ -199,7 +199,7 @@ export default function DailyDeals() {
 
           <Link
             href="/deals"
-            className="text-sm text-[#6B46C1] hover:text-[#5D3EA9] font-medium flex items-center group"
+            className="text-sm text-[#6B46C1] hover:text-[#542bc9] font-medium flex items-center group"
           >
             View All Deals
             <svg

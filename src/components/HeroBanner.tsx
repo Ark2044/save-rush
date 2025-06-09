@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLocation } from "@/context/LocationContext";
 import { FiClock, FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
+import ScheduleOrderModal from "./ScheduleOrderModal";
 
 // Slide data for the carousel
 const slides = [
@@ -49,6 +50,7 @@ export default function HeroBanner() {
   const { currentLocation, openLocationModal } = useLocation();
   const [timeLeft, setTimeLeft] = useState("0:00");
   const [isPaused, setIsPaused] = useState(false);
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
 
   // Auto slide change with pause on hover
   useEffect(() => {
@@ -95,13 +97,17 @@ export default function HeroBanner() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const handleScheduleOrder = (date: string, time: string) => {
+    toast.success(`Order scheduled for ${new Date(date).toLocaleDateString()} at ${time}`);
+  };
+
   return (
-    <section className="py-4 md:py-6">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Enhanced Main carousel */}
+    <section className="py-2 sm:py-4 md:py-6">
+      <div className="container-responsive max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
+          {/* Enhanced Main carousel - Responsive height and layout */}
           <div 
-            className="w-full md:w-3/4 relative h-48 md:h-64 rounded-xl overflow-hidden group"
+            className="w-full lg:w-3/4 relative h-40 xs:h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg sm:rounded-xl overflow-hidden group"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
@@ -116,61 +122,64 @@ export default function HeroBanner() {
               {slides.map((slide, index) => (
                 <div
                   key={slide.id}
-                  className={`w-full h-full flex-shrink-0 flex items-center justify-between p-6 md:p-8 bg-gradient-to-r ${slide.backgroundColor} relative overflow-hidden`}
+                  className={`w-full h-full flex-shrink-0 flex items-center justify-between p-3 xs:p-4 sm:p-6 md:p-8 bg-gradient-to-r ${slide.backgroundColor} relative overflow-hidden`}
                 >
-                  {/* Decorative elements */}
-                  <div className="absolute -right-8 -top-8 w-32 h-32 bg-white opacity-10 rounded-full"></div>
-                  <div className="absolute left-1/3 -bottom-6 w-20 h-20 bg-white opacity-5 rounded-full"></div>
+                  {/* Responsive decorative elements */}
+                  <div className="absolute -right-4 sm:-right-8 -top-4 sm:-top-8 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white opacity-10 rounded-full"></div>
+                  <div className="absolute left-1/4 sm:left-1/3 -bottom-3 sm:-bottom-6 w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white opacity-5 rounded-full"></div>
                   
-                  <div className="text-white max-w-xs z-10">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-2 drop-shadow-lg">
+                  <div className="text-white max-w-[60%] sm:max-w-xs z-10">
+                    <h2 className="text-sm xs:text-base sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 drop-shadow-lg leading-tight">
                       {slide.title}
                     </h2>
-                    <p className="opacity-90 md:text-lg mb-4 drop-shadow-sm">{slide.subtitle}</p>
+                    <p className="opacity-90 text-xs xs:text-sm sm:text-base md:text-lg mb-2 sm:mb-4 drop-shadow-sm line-clamp-2">
+                      {slide.subtitle}
+                    </p>
                     <button
-                      className={`px-6 py-2.5 rounded-full text-sm md:text-base font-medium transition-all shadow-lg text-white ${slide.buttonColor} transform hover:scale-105 hover:shadow-xl`}
+                      className={`px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 sm:py-2.5 rounded-full text-xs xs:text-sm sm:text-base font-medium transition-all shadow-lg text-white ${slide.buttonColor} transform hover:scale-105 hover:shadow-xl btn-touch`}
                     >
                       {slide.buttonText}
                     </button>
                   </div>
 
-                  <div className="relative h-40 w-40 md:h-48 md:w-48 hidden md:block">
+                  {/* Responsive product image */}
+                  <div className="relative h-24 w-24 xs:h-32 xs:w-32 sm:h-40 sm:w-40 md:h-48 md:w-48 hidden xs:block">
                     <Image
                       src={slide.image}
                       alt={slide.title}
                       fill
                       className="object-contain drop-shadow-lg"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 475px) 128px, (max-width: 640px) 160px, (max-width: 768px) 192px, 192px"
                     />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Navigation arrows */}
+            {/* Responsive navigation arrows */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 btn-touch"
             >
-              <FiChevronLeft className="h-5 w-5" />
+              <FiChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all opacity-0 group-hover:opacity-100 btn-touch"
             >
-              <FiChevronRight className="h-5 w-5" />
+              <FiChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
 
-            {/* Enhanced Carousel controls */}
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+            {/* Enhanced Carousel controls - Responsive positioning */}
+            <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 flex justify-center gap-1 sm:gap-2">
               {slides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
+                  className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 btn-touch ${
                     index === currentSlide 
-                      ? "bg-white w-8 shadow-lg" 
-                      : "bg-white/50 w-2 hover:bg-white/70"
+                      ? "bg-white w-6 sm:w-8 shadow-lg" 
+                      : "bg-white/50 w-1.5 sm:w-2 hover:bg-white/70"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -178,35 +187,53 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          {/* Enhanced Delivery time card */}
-          <div
-            className="w-full md:w-1/4 flex flex-col justify-between bg-gradient-to-br from-[#6B46C1] to-[#8B5CF6] text-white rounded-xl p-4 md:p-6 cursor-pointer hover:from-[#5D3EA9] hover:to-[#7C3AED] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 relative overflow-hidden"
-            onClick={openLocationModal}
-          >
-            {/* Decorative elements */}
-            <div className="absolute -right-6 -top-6 w-20 h-20 bg-white opacity-10 rounded-full"></div>
-            <div className="absolute left-2 -bottom-4 w-12 h-12 bg-purple-400 opacity-20 rounded-full"></div>
+          {/* Enhanced Delivery time card - Responsive design */}
+          <div className="w-full lg:w-1/4 flex flex-col justify-between theme-gradient text-white rounded-lg sm:rounded-xl p-3 xs:p-4 sm:p-6 relative overflow-hidden transition-all duration-300">
+            {/* Responsive decorative elements */}
+            <div className="absolute -right-3 sm:-right-6 -top-3 sm:-top-6 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white opacity-10 rounded-full"></div>
+            <div className="absolute left-1 sm:left-2 -bottom-2 sm:-bottom-4 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-400 opacity-20 rounded-full"></div>
             
             <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-2">
-                <FiClock className="h-5 w-5 text-[#9BF00B]" />
-                <h3 className="text-lg font-bold">Delivery in</h3>
+              <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                <FiClock className="h-3 w-3 xs:h-4 xs:w-4 sm:h-5 sm:w-5 text-[#9BF00B]" />
+                <h3 className="text-sm xs:text-base sm:text-lg font-bold">Delivery in</h3>
               </div>
-              <div className="text-4xl font-bold mb-3 text-[#9BF00B] drop-shadow-lg">{timeLeft}</div>
-              <p className="text-sm opacity-90 line-clamp-2">
+              <div className="text-2xl xs:text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-[#9BF00B] drop-shadow-lg">{timeLeft}</div>
+              <p className="text-xs xs:text-sm opacity-90 line-clamp-2 mb-3 sm:mb-4">
                 {currentLocation?.address || "Select your delivery location"}
               </p>
-            </div>
-
-            <div className="flex items-center mt-4 relative z-10">
-              <span className="text-[#9BF00B] font-medium text-sm">
-                Change Location
-              </span>
-              <FiChevronRight className="h-4 w-4 ml-1 text-[#9BF00B] group-hover:translate-x-1 transition-transform" />
+              
+              {/* Responsive action buttons */}
+              <div className="flex flex-col gap-1.5 sm:gap-2">
+                <button
+                  onClick={openLocationModal}
+                  className="flex items-center justify-center gap-1 sm:gap-2 bg-white/20 backdrop-blur-sm text-white px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg hover:bg-white/30 transition-all text-xs sm:text-sm font-medium btn-touch"
+                >
+                  <FiMapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">Change Location</span>
+                  <span className="xs:hidden">Location</span>
+                </button>
+                
+                <button
+                  onClick={() => setScheduleModalOpen(true)}
+                  className="flex items-center justify-center gap-1 sm:gap-2 bg-[#9BF00B] text-black px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg hover:bg-[#8AE00A] transition-all text-xs sm:text-sm font-medium btn-touch"
+                >
+                  <FiClock className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline">Schedule Order</span>
+                  <span className="xs:hidden">Schedule</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Schedule Order Modal */}
+      <ScheduleOrderModal
+        open={scheduleModalOpen}
+        onClose={() => setScheduleModalOpen(false)}
+        onSchedule={handleScheduleOrder}
+      />
     </section>
   );
 }

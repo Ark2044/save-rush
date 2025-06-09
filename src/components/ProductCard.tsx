@@ -76,53 +76,55 @@ export default function ProductCard({
 
   return (
     <div
-      className="bg-white rounded-xl p-3 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full group border border-gray-100 hover:border-purple-200"
+      className="bg-white rounded-lg sm:rounded-xl p-2 xs:p-3 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full group border border-gray-100 hover:border-purple-200"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Product Image */}
-      <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Product Image - Responsive sizing */}
+      <div className="relative mb-2 aspect-square overflow-hidden rounded-md sm:rounded-lg bg-gradient-to-br from-gray-50 to-gray-100">
         <Image
           src={imgError ? fallbackImage : imageUrl}
           alt={name}
           fill
-          className="object-contain p-2 transition-transform duration-300 group-hover:scale-110"
-          sizes="(max-width: 768px) 40vw, 20vw"
+          className="object-contain p-1 sm:p-2 transition-transform duration-300 group-hover:scale-110"
+          sizes="(max-width: 475px) 150px, (max-width: 640px) 200px, (max-width: 768px) 250px, 300px"
           onError={() => setImgError(true)}
         />
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">
+          <div className="absolute top-1 sm:top-2 left-1 sm:left-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md shadow-sm">
             {discount}% OFF
           </div>
         )}
         {!inStock && (
           <div className="absolute inset-0 bg-white/90 flex items-center justify-center backdrop-blur-sm">
-            <span className="text-red-500 font-medium text-sm bg-white px-3 py-1 rounded-full shadow-md">
+            <span className="text-red-500 font-medium text-xs sm:text-sm bg-white px-2 sm:px-3 py-1 rounded-full shadow-md">
               Out of Stock
             </span>
           </div>
         )}
         {deliveryTime && inStock && (
-          <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-xs px-2 py-1 rounded-full text-gray-700 shadow-sm border">
-            <FiClock className="h-3 w-3 inline mr-1" />
-            {deliveryTime}
+          <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 bg-white/90 backdrop-blur-sm text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-gray-700 shadow-sm border">
+            <FiClock className="h-2.5 w-2.5 sm:h-3 sm:w-3 inline mr-1" />
+            <span className="hidden xs:inline">{deliveryTime}</span>
+            <span className="xs:hidden">{deliveryTime.split(' ')[0]}m</span>
           </div>
         )}
       </div>
 
-      {/* Product Info */}
+      {/* Product Info - Responsive typography */}
       <div className="flex-grow flex flex-col">
         <div className="text-xs text-gray-500 mb-1 font-medium">{weight}</div>
         <h3
-          className="font-medium text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-purple-700 transition-colors"
+          className="font-medium text-gray-900 text-xs xs:text-sm mb-1 sm:mb-2 line-clamp-2 group-hover:text-purple-700 transition-colors leading-tight"
           title={name}
         >
           {name}
         </h3>
 
-        <div className="mt-auto flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <span className="font-bold text-sm text-gray-900">
+        {/* Price and Add Button - Responsive layout */}
+        <div className="mt-auto flex items-center justify-between gap-1 sm:gap-2">
+          <div className="flex flex-col xs:flex-row xs:items-center xs:gap-1">
+            <span className="font-bold text-xs xs:text-sm text-gray-900">
               ₹{discountedPrice || basePrice}
             </span>
             {discountedPrice && (
@@ -135,7 +137,7 @@ export default function ProductCard({
           <button
             onClick={handleAddToCart}
             disabled={!inStock || isAdding}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 flex items-center justify-center min-w-[60px] transform hover:scale-105 ${
+            className={`px-2 xs:px-3 py-1 xs:py-1.5 text-xs font-medium rounded-md sm:rounded-lg transition-all duration-300 flex items-center justify-center min-w-[50px] xs:min-w-[60px] transform hover:scale-105 btn-touch ${
               !inStock
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : isAdding
@@ -145,13 +147,14 @@ export default function ProductCard({
           >
             {isAdding ? (
               <span className="flex items-center gap-1">
-                <AiOutlineLoading3Quarters className="animate-spin h-3 w-3 text-green-800" />
-                Adding
+                <AiOutlineLoading3Quarters className="animate-spin h-2.5 w-2.5 xs:h-3 xs:w-3 text-green-800" />
+                <span className="hidden xs:inline">Adding</span>
               </span>
             ) : (
               <span className="flex items-center gap-1">
-                <FiPlus className="h-3 w-3" />
-                ADD
+                <FiPlus className="h-2.5 w-2.5 xs:h-3 xs:w-3" />
+                <span className="hidden xs:inline">ADD</span>
+                <span className="xs:hidden">+</span>
               </span>
             )}
           </button>

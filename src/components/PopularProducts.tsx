@@ -149,7 +149,7 @@ export default function PopularProducts() {
 
   return (
     <section className="py-4 md:py-8">
-      <div className="max-w-7xl mx-auto border border-gray-200 rounded-xl shadow-lg px-4 md:px-6 py-4 bg-gradient-to-br from-white to-purple-50">
+      <div className="max-w-7xl mx-auto theme-gradient-card rounded-xl shadow-lg px-4 md:px-6 py-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-1">
@@ -168,8 +168,8 @@ export default function PopularProducts() {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`whitespace-nowrap px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
                     selectedCategory === category.id
-                      ? "bg-gradient-to-r from-[#6B46C1] to-[#8B5CF6] text-white shadow-lg"
-                      : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 hover:border-purple-200"
+                      ? "theme-gradient text-white shadow-lg"
+                      : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 hover:border-[#6B46C1]"
                   }`}
                 >
                   <span className="mr-1">{category.emoji}</span> {category.name}

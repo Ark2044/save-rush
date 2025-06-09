@@ -13,60 +13,74 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-br from-gray-50 to-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        {/* Enhanced Top row with features */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+    <footer className="theme-gradient text-white relative overflow-hidden">
+      <div className="container-responsive max-w-7xl mx-auto py-6 sm:py-8 md:py-10 relative z-10">
+        {/* Responsive decorative elements */}
+        <div className="absolute -right-4 sm:-right-8 -top-4 sm:-top-8 w-20 h-20 sm:w-32 sm:h-32 bg-white opacity-5 rounded-full"></div>
+        <div className="absolute left-1/4 -bottom-3 sm:-bottom-6 w-14 h-14 sm:w-20 sm:h-20 bg-purple-400 opacity-10 rounded-full"></div>
+        
+        {/* Enhanced Top row with features - Responsive grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-10">
           <div className="flex flex-col items-center text-center group">
-            <div className="bg-gradient-to-br from-[#F3F0FF] to-[#E8E2FF] p-4 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md">
-              <FiClock className="h-6 w-6 text-[#6B46C1]" />
+            <div className="bg-gradient-to-br from-white/20 to-white/10 p-2 xs:p-3 sm:p-4 rounded-full mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md backdrop-blur-sm">
+              <FiClock className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-[#9BF00B]" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors">
-              10 Minute Delivery
+            <h3 className="font-semibold text-white mb-1 group-hover:text-[#9BF00B] transition-colors text-xs xs:text-sm sm:text-base">
+              <span className="hidden xs:inline">10 Minute Delivery</span>
+              <span className="xs:hidden">Fast Delivery</span>
             </h3>
-            <p className="text-sm text-gray-500">
-              Get your groceries in minutes
+            <p className="text-xs sm:text-sm text-purple-100 leading-tight">
+              <span className="hidden sm:inline">Get your groceries in minutes</span>
+              <span className="sm:hidden">Quick delivery</span>
             </p>
           </div>
 
           <div className="flex flex-col items-center text-center group">
-            <div className="bg-gradient-to-br from-[#F3F0FF] to-[#E8E2FF] p-4 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md">
-              <FiCheckCircle className="h-6 w-6 text-[#6B46C1]" />
+            <div className="bg-gradient-to-br from-white/20 to-white/10 p-2 xs:p-3 sm:p-4 rounded-full mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md backdrop-blur-sm">
+              <FiCheckCircle className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-[#9BF00B]" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors">
-              Best Prices & Offers
+            <h3 className="font-semibold text-white mb-1 group-hover:text-[#9BF00B] transition-colors text-xs xs:text-sm sm:text-base">
+              <span className="hidden xs:inline">Best Prices & Offers</span>
+              <span className="xs:hidden">Best Prices</span>
             </h3>
-            <p className="text-sm text-gray-500">
-              Cheaper than your local store
+            <p className="text-xs sm:text-sm text-purple-100 leading-tight">
+              <span className="hidden sm:inline">Cheaper than your local store</span>
+              <span className="sm:hidden">Great deals</span>
             </p>
           </div>
 
           <div className="flex flex-col items-center text-center group">
-            <div className="bg-gradient-to-br from-[#F3F0FF] to-[#E8E2FF] p-4 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md">
-              <FiCreditCard className="h-6 w-6 text-[#6B46C1]" />
+            <div className="bg-gradient-to-br from-white/20 to-white/10 p-2 xs:p-3 sm:p-4 rounded-full mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md backdrop-blur-sm">
+              <FiCreditCard className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-[#9BF00B]" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors">Easy Returns</h3>
-            <p className="text-sm text-gray-500">Hassle-free returns policy</p>
+            <h3 className="font-semibold text-white mb-1 group-hover:text-[#9BF00B] transition-colors text-xs xs:text-sm sm:text-base">Easy Returns</h3>
+            <p className="text-xs sm:text-sm text-purple-100 leading-tight">
+              <span className="hidden sm:inline">Hassle-free returns policy</span>
+              <span className="sm:hidden">Easy returns</span>
+            </p>
           </div>
 
           <div className="flex flex-col items-center text-center group">
-            <div className="bg-gradient-to-br from-[#F3F0FF] to-[#E8E2FF] p-4 rounded-full mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md">
-              <FiLifeBuoy className="h-6 w-6 text-[#6B46C1]" />
+            <div className="bg-gradient-to-br from-white/20 to-white/10 p-2 xs:p-3 sm:p-4 rounded-full mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300 shadow-md backdrop-blur-sm">
+              <FiLifeBuoy className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-[#9BF00B]" />
             </div>
-            <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors">24/7 Support</h3>
-            <p className="text-sm text-gray-500">Customer support all day</p>
+            <h3 className="font-semibold text-white mb-1 group-hover:text-[#9BF00B] transition-colors text-xs xs:text-sm sm:text-base">24/7 Support</h3>
+            <p className="text-xs sm:text-sm text-purple-100 leading-tight">
+              <span className="hidden sm:inline">Customer support all day</span>
+              <span className="sm:hidden">Always here</span>
+            </p>
           </div>
         </div>
 
-        {/* Enhanced Main footer links */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10 pb-10 border-b border-gray-100">
-          <div>
-            <h4 className="text-[#6B46C1] font-black text-xl mb-4 hover:scale-105 transition-transform cursor-pointer">SAVE RUSH</h4>
-            <ul className="space-y-3">
+        {/* Enhanced Main footer links - Responsive grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8 md:mb-10 pb-6 sm:pb-8 md:pb-10 border-b border-white/20">
+          <div className="col-span-2 sm:col-span-1">
+            <h4 className="text-[#9BF00B] font-black text-base sm:text-lg md:text-xl mb-3 sm:mb-4 hover:scale-105 transition-transform cursor-pointer brandname">SAVE RUSH</h4>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
                   href="/about"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   About Us
                 </Link>
@@ -74,7 +88,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/careers"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Careers
                 </Link>
@@ -82,7 +96,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/blog"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Blog
                 </Link>
@@ -90,7 +104,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/partner"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Partner with Us
                 </Link>
@@ -99,60 +113,65 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">
+            <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">
               Shop by Category
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
                   href="/category/fruits-vegetables"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Fruits & Vegetables
+                  <span className="hidden sm:inline">Fruits & Vegetables</span>
+                  <span className="sm:hidden">Fruits & Veggies</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/category/dairy-breakfast"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Dairy & Breakfast
+                  <span className="hidden sm:inline">Dairy & Breakfast</span>
+                  <span className="sm:hidden">Dairy</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/category/snacks-beverages"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Snacks & Beverages
+                  <span className="hidden sm:inline">Snacks & Beverages</span>
+                  <span className="sm:hidden">Snacks</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/category/staples"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Staples & Cooking Essentials
+                  <span className="hidden sm:inline">Staples & Cooking Essentials</span>
+                  <span className="sm:hidden">Staples</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Quick Links</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">Quick Links</h4>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
                   href="/offers"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Offers & Deals
+                  <span className="hidden sm:inline">Offers & Deals</span>
+                  <span className="sm:hidden">Offers</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/coupons"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Coupons
                 </Link>
@@ -160,7 +179,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/account/orders"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   My Orders
                 </Link>
@@ -168,7 +187,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/track"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Track Order
                 </Link>
@@ -177,12 +196,12 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Help & Support</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">Help & Support</h4>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
                   href="/help"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Help Center
                 </Link>
@@ -190,7 +209,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/faq"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   FAQs
                 </Link>
@@ -198,7 +217,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/privacy"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
                   Privacy Policy
                 </Link>
@@ -206,86 +225,88 @@ const Footer = () => {
               <li>
                 <Link
                   href="/terms"
-                  className="text-gray-500 hover:text-[#6B46C1] text-sm transition-all hover:translate-x-1"
+                  className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Terms & Conditions
+                  <span className="hidden sm:inline">Terms & Conditions</span>
+                  <span className="sm:hidden">Terms</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Download App</h4>
-            <p className="text-sm text-gray-500 mb-4">
-              Get the SaveRush app for faster ordering and tracking
+          <div className="col-span-2 sm:col-span-3 md:col-span-1">
+            <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base">Download App</h4>
+            <p className="text-xs sm:text-sm text-purple-100 mb-3 sm:mb-4">
+              <span className="hidden sm:inline">Get the SaveRush app for faster ordering and tracking</span>
+              <span className="sm:hidden">Get our mobile app</span>
             </p>
 
             <div className="flex flex-col gap-2">
               <Link
                 href="#"
-                className="flex items-center border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 hover:border-purple-300 transition-all hover:scale-105 shadow-sm"
+                className="flex items-center border border-white/30 rounded-lg px-2 sm:px-3 py-2 hover:bg-white/10 hover:border-[#9BF00B] transition-all hover:scale-105 shadow-sm backdrop-blur-sm btn-touch"
               >
-                <FaGooglePlay className="text-black mr-3" size={24} />
+                <FaGooglePlay className="text-white mr-2 sm:mr-3" size={20} />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500">GET IT ON</span>
-                  <span className="font-medium">Google Play</span>
+                  <span className="text-xs text-purple-100">GET IT ON</span>
+                  <span className="font-medium text-white text-xs sm:text-sm">Google Play</span>
                 </div>
               </Link>
 
               <Link
                 href="#"
-                className="flex items-center border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 hover:border-purple-300 transition-all hover:scale-105 shadow-sm"
+                className="flex items-center border border-white/30 rounded-lg px-2 sm:px-3 py-2 hover:bg-white/10 hover:border-[#9BF00B] transition-all hover:scale-105 shadow-sm backdrop-blur-sm btn-touch"
               >
-                <FaApple className="text-black mr-3" size={24} />
+                <FaApple className="text-white mr-2 sm:mr-3" size={20} />
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500">DOWNLOAD ON THE</span>
-                  <span className="font-medium">App Store</span>
+                  <span className="text-xs text-purple-100">DOWNLOAD ON THE</span>
+                  <span className="font-medium text-white text-xs sm:text-sm">App Store</span>
                 </div>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Bottom row with social icons */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+        {/* Enhanced Bottom row - Responsive layout */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center justify-center sm:justify-start gap-3 sm:gap-4">
             <a
               href="#"
-              className="text-gray-500 hover:text-[#6B46C1] transition-all hover:scale-110"
+              className="text-purple-100 hover:text-[#9BF00B] transition-all hover:scale-110 btn-touch"
             >
-              <FaFacebook size={24} />
+              <FaFacebook size={20} />
             </a>
             <a
               href="#"
-              className="text-gray-500 hover:text-[#6B46C1] transition-all hover:scale-110"
+              className="text-purple-100 hover:text-[#9BF00B] transition-all hover:scale-110 btn-touch"
             >
-              <FaTwitter size={24} />
+              <FaTwitter size={20} />
             </a>
             <a
               href="#"
-              className="text-gray-500 hover:text-[#6B46C1] transition-all hover:scale-110"
+              className="text-purple-100 hover:text-[#9BF00B] transition-all hover:scale-110 btn-touch"
             >
-              <FaInstagram size={24} />
+              <FaInstagram size={20} />
             </a>
             <a
               href="#"
-              className="text-gray-500 hover:text-[#6B46C1] transition-all hover:scale-110"
+              className="text-purple-100 hover:text-[#9BF00B] transition-all hover:scale-110 btn-touch"
             >
-              <FaYoutube size={24} />
+              <FaYoutube size={20} />
             </a>
           </div>
 
-          <div className="text-sm text-gray-500">
+          <div className="text-xs sm:text-sm text-purple-100 text-center sm:text-left order-last sm:order-none">
             &copy; {currentYear} SaveRush. All rights reserved.
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-gray-500">We accept</div>
-            <div className="flex gap-2">
-              <div className="h-8 w-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow"></div>
-              <div className="h-8 w-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow"></div>
-              <div className="h-8 w-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow"></div>
-              <div className="h-8 w-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-md shadow-sm hover:shadow-md transition-shadow"></div>
+          <div className="flex items-center justify-center sm:justify-end gap-2 sm:gap-4">
+            <div className="text-xs sm:text-sm text-purple-100">We accept</div>
+            <div className="flex gap-1 sm:gap-2">
+              <div className="h-6 w-8 sm:h-8 sm:w-12 bg-white/20 rounded-md shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"></div>
+              <div className="h-6 w-8 sm:h-8 sm:w-12 bg-white/20 rounded-md shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"></div>
+              <div className="h-6 w-8 sm:h-8 sm:w-12 bg-white/20 rounded-md shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"></div>
+              <div className="h-6 w-8 sm:h-8 sm:w-12 bg-white/20 rounded-md shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"></div>
             </div>
           </div>
         </div>
