@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import userService from "@/services/userService";
+import { useRouter } from "next/navigation";
 
 export default function EditProfile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,6 +24,24 @@ export default function EditProfile() {
         email: user.email || "",
         phone: user.phoneNumber || "",
       });
+
+      // Fetch full profile from backend to ensure data is up-to-date
+      const fetchProfile = async () => {
+        try {
+          const profile = await userService.getProfile();
+          if (profile) {
+            setFormData((prev) => ({
+              ...prev,
+              name: profile.name || prev.name,
+              email: profile.email || prev.email,
+            }));
+          }
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+        }
+      };
+
+      fetchProfile();
     }
   }, [user]);
 
@@ -52,18 +73,46 @@ export default function EditProfile() {
     // Show loading toast
     const loadingToast = toast.loading("Updating profile...");
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await userService.updateUser({
+        name: formData.name,
+        email: formData.email,
+      });
       setSuccessMessage("Profile updated successfully!");
       toast.dismiss(loadingToast);
       toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Failed to update profile.");
+      console.error("Update profile error:", error);
+    } finally {
       setLoading(false);
-
       // Clear success message after 3 seconds
       setTimeout(() => {
         setSuccessMessage("");
       }, 3000);
-    }, 1500);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete your account? This action is irreversible."
+      )
+    ) {
+      const loadingToast = toast.loading("Deleting account...");
+      try {
+        await userService.deleteUser();
+        toast.dismiss(loadingToast);
+        toast.success("Account deleted successfully.");
+        await logout(); // Logout the user
+        router.push("/"); // Redirect to home
+      } catch (error) {
+        toast.dismiss(loadingToast);
+        toast.error("Failed to delete account. Please try again.");
+        console.error("Delete account error:", error);
+      }
+    }
   };
 
   return (
@@ -190,6 +239,21 @@ export default function EditProfile() {
             </div>
           </div>
         </form>
+      </div>
+
+      <div className="mt-8 bg-white rounded-lg shadow-sm p-6 border border-red-200">
+        <h2 className="text-lg font-bold text-red-600">Danger Zone</h2>
+        <p className="text-sm text-gray-600 mt-1 mb-4">
+          Deleting your account will permanently remove all your data. This
+          action cannot be undone.
+        </p>
+        <button
+          onClick={handleDeleteAccount}
+          className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors"
+          disabled={loading}
+        >
+          Delete My Account
+        </button>
       </div>
     </div>
   );

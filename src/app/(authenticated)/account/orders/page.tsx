@@ -153,6 +153,26 @@ export default function Orders() {
     fetchOrders();
   }, [user]);
 
+  const handleCancelOrder = async (orderId: string) => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      const loadingToast = toast.loading("Cancelling order...");
+      try {
+        await orderService.cancelOrder(orderId);
+        toast.dismiss(loadingToast);
+        toast.success("Order cancelled successfully.");
+        // Refresh orders list
+        const updatedOrders = orders.map((o) =>
+          o.id === orderId ? { ...o, status: "cancelled" as const } : o
+        );
+        setOrders(updatedOrders);
+      } catch (error) {
+        toast.dismiss(loadingToast);
+        toast.error("Failed to cancel order.");
+        console.error("Cancel order error:", error);
+      }
+    }
+  };
+
   // Get status badge color and text
   const getStatusBadge = (status: Order["status"]) => {
     switch (status) {
@@ -367,7 +387,10 @@ export default function Orders() {
 
                   {(order.status === "processing" ||
                     order.status === "packed") && (
-                    <button className="border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2">
+                    <button
+                      onClick={() => handleCancelOrder(order.id)}
+                      className="border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"

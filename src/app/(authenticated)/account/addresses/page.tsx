@@ -1,21 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { addressService } from "@/services";
+import { useAuth } from "@/context/AuthContext";
+
+interface Address {
+  id: string;
+  type: string;
+  address: string;
+  locality: string;
+  city: string;
+  state: string;
+  pincode: string;
+  isDefault: boolean;
+}
 
 export default function Addresses() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      type: "Home",
-      address: "123 Main Street, Apartment 4B",
-      locality: "Worli",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pincode: "400018",
-      isDefault: true,
-    },
-  ]);
+  const { user } = useAuth();
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     type: "Home",
@@ -25,6 +29,25 @@ export default function Addresses() {
     state: "",
     pincode: "",
   });
+
+  const fetchAddresses = async () => {
+    try {
+      setLoading(true);
+      const fetchedAddresses = await addressService.getAddresses();
+      setAddresses(fetchedAddresses || []);
+    } catch (error) {
+      toast.error("Failed to load addresses.");
+      console.error("Fetch addresses error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchAddresses();
+    }
+  }, [user]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -36,7 +59,7 @@ export default function Addresses() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validate pincode
@@ -55,37 +78,44 @@ export default function Addresses() {
       return;
     }
 
-    const newAddress = {
-      id: addresses.length + 1,
-      ...formData,
-      isDefault: addresses.length === 0,
-    };
-
-    setAddresses([...addresses, newAddress]);
-    setShowAddForm(false);
-    toast.success("New address added successfully");
-
-    setFormData({
-      type: "Home",
-      address: "",
-      locality: "",
-      city: "",
-      state: "",
-      pincode: "",
-    });
+    const loadingToast = toast.loading("Adding address...");
+    try {
+      await addressService.addAddress({
+        ...formData,
+        isDefault: addresses.length === 0,
+      });
+      setShowAddForm(false);
+      toast.dismiss(loadingToast);
+      toast.success("New address added successfully");
+      fetchAddresses(); // Refresh the list
+      setFormData({
+        type: "Home",
+        address: "",
+        locality: "",
+        city: "",
+        state: "",
+        pincode: "",
+      });
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Failed to add address.");
+    }
   };
 
-  const setAsDefault = (id: number) => {
-    setAddresses(
-      addresses.map((addr) => ({
-        ...addr,
-        isDefault: addr.id === id,
-      }))
-    );
-    toast.success("Default address updated");
+  const setAsDefault = async (id: string) => {
+    const loadingToast = toast.loading("Setting default address...");
+    try {
+      await addressService.setDefaultAddress(id);
+      toast.dismiss(loadingToast);
+      toast.success("Default address updated");
+      fetchAddresses(); // Refresh the list
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Failed to update default address.");
+    }
   };
 
-  const deleteAddress = (id: number) => {
+  const deleteAddress = async (id: string) => {
     // Don't allow deletion of the default address
     const addressToDelete = addresses.find((addr) => addr.id === id);
     if (addressToDelete?.isDefault) {
@@ -95,9 +125,18 @@ export default function Addresses() {
       return;
     }
 
-    const filteredAddresses = addresses.filter((addr) => addr.id !== id);
-    setAddresses(filteredAddresses);
-    toast.success("Address deleted successfully");
+    if (window.confirm("Are you sure you want to delete this address?")) {
+      const loadingToast = toast.loading("Deleting address...");
+      try {
+        await addressService.deleteAddress(id);
+        toast.dismiss(loadingToast);
+        toast.success("Address deleted successfully");
+        fetchAddresses(); // Refresh the list
+      } catch (error) {
+        toast.dismiss(loadingToast);
+        toast.error("Failed to delete address.");
+      }
+    }
   };
 
   return (
@@ -263,45 +302,49 @@ export default function Addresses() {
         )}
 
         {/* Existing Addresses */}
-        {addresses.map((address) => (
-          <div
-            key={address.id}
-            className="bg-white rounded-lg shadow-sm p-5 border"
-          >
-            <div className="flex justify-between">
-              <div className="flex items-center mb-2">
-                <span className="font-medium mr-2">{address.type}</span>
-                {address.isDefault && (
-                  <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded">
-                    Default
-                  </span>
-                )}
-              </div>
-              <div className="flex gap-3">
-                {!address.isDefault && (
+        {loading ? (
+          <p>Loading addresses...</p>
+        ) : (
+          addresses.map((address) => (
+            <div
+              key={address.id}
+              className="bg-white rounded-lg shadow-sm p-5 border"
+            >
+              <div className="flex justify-between">
+                <div className="flex items-center mb-2">
+                  <span className="font-medium mr-2">{address.type}</span>
+                  {address.isDefault && (
+                    <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded">
+                      Default
+                    </span>
+                  )}
+                </div>
+                <div className="flex gap-3">
+                  {!address.isDefault && (
+                    <button
+                      onClick={() => setAsDefault(address.id)}
+                      className="text-sm text-gray-600 hover:text-[#6B46C1]"
+                    >
+                      Set as Default
+                    </button>
+                  )}
                   <button
-                    onClick={() => setAsDefault(address.id)}
-                    className="text-sm text-gray-600 hover:text-[#6B46C1]"
+                    onClick={() => deleteAddress(address.id)}
+                    className="text-sm text-red-500"
                   >
-                    Set as Default
+                    Delete
                   </button>
-                )}
-                <button
-                  onClick={() => deleteAddress(address.id)}
-                  className="text-sm text-red-500"
-                >
-                  Delete
-                </button>
+                </div>
               </div>
+              <p className="text-gray-700">
+                {address.address}, {address.locality}
+              </p>
+              <p className="text-gray-700">
+                {address.city}, {address.state} - {address.pincode}
+              </p>
             </div>
-            <p className="text-gray-700">
-              {address.address}, {address.locality}
-            </p>
-            <p className="text-gray-700">
-              {address.city}, {address.state} - {address.pincode}
-            </p>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

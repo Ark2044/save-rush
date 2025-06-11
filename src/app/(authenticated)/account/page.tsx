@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import userService from "@/services/userService";
 
 export default function Account() {
   const { user, logout } = useAuth();
@@ -13,10 +14,26 @@ export default function Account() {
 
   useEffect(() => {
     if (user) {
-      // Set user details
+      // Set user details from auth context initially
       setPhoneNumber(user.phoneNumber || "");
       setEmail(user.email || "");
       setUserName(user.displayName || "User");
+
+      // Fetch full profile from backend
+      const fetchProfile = async () => {
+        try {
+          const profile = await userService.getProfile();
+          if (profile) {
+            setUserName(profile.name || user.displayName || "User");
+            setEmail(profile.email || user.email || "");
+          }
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+          toast.error("Could not load profile details.");
+        }
+      };
+
+      fetchProfile();
     }
   }, [user]);
 

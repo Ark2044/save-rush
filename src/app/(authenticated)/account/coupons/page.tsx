@@ -1,38 +1,49 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
+import { couponService } from "@/services";
+import toast from "react-hot-toast";
+
+interface Coupon {
+  id: string;
+  code: string;
+  discount: string;
+  minAmount: number;
+  validUntil: string;
+  description: string;
+}
 
 export default function Coupons() {
-  const { user } = useAuth();
-  const [coupons, setCoupons] = useState<any[]>([]);
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching coupons
-    setTimeout(() => {
-      setCoupons([
-        {
-          id: "SAVE10",
-          code: "SAVE10",
-          discount: "10% OFF",
-          minAmount: 500,
-          validUntil: "2025-06-30",
-          description: "10% off on all grocery items",
-        },
-        {
-          id: "FRESH50",
-          code: "FRESH50",
-          discount: "₹50 OFF",
-          minAmount: 200,
-          validUntil: "2025-06-15",
-          description: "₹50 off on fresh vegetables",
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
+    const fetchCoupons = async () => {
+      try {
+        setLoading(true);
+        const fetchedCoupons = await couponService.getCoupons();
+        setCoupons(fetchedCoupons || []);
+      } catch (error) {
+        toast.error("Failed to load coupons.");
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCoupons();
   }, []);
+
+  const handleApplyCoupon = async (code: string) => {
+    const loadingToast = toast.loading(`Applying coupon ${code}...`);
+    try {
+      await couponService.applyCoupon(code);
+      toast.dismiss(loadingToast);
+      toast.success(`Coupon ${code} applied!`);
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error(`Failed to apply coupon ${code}.`);
+    }
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto p-4 md:p-6 mb-20">
@@ -114,7 +125,10 @@ export default function Coupons() {
                       </p>
                     </div>
                   </div>
-                  <button className="text-[#6B46C1] font-medium bg-[#F0EAFA] px-3 py-1 rounded-md">
+                  <button
+                    onClick={() => handleApplyCoupon(coupon.code)}
+                    className="text-[#6B46C1] font-medium bg-[#F0EAFA] px-3 py-1 rounded-md"
+                  >
                     Apply
                   </button>
                 </div>
