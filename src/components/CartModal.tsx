@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import GuestCheckoutPrompt from "./GuestCheckoutPrompt";
 import ScheduleOrderModal from "./ScheduleOrderModal";
-import { FiEdit2, FiClock } from 'react-icons/fi';
+import { FiEdit2, FiClock } from "react-icons/fi";
 
 interface Address {
   id: string;
@@ -51,7 +51,10 @@ export default function CartModal({ open, onClose }: CartModalProps) {
     string | null
   >(null);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
-  const [scheduledDelivery, setScheduledDelivery] = useState<{date: string, time: string} | null>(null);
+  const [scheduledDelivery, setScheduledDelivery] = useState<{
+    date: string;
+    time: string;
+  } | null>(null);
   const {
     items,
     updateQuantity,
@@ -148,7 +151,9 @@ export default function CartModal({ open, onClose }: CartModalProps) {
 
   const handleScheduleDelivery = (date: string, time: string) => {
     setScheduledDelivery({ date, time });
-    toast.success(`Delivery scheduled for ${new Date(date).toLocaleDateString()} at ${time}`);
+    toast.success(
+      `Delivery scheduled for ${new Date(date).toLocaleDateString()} at ${time}`
+    );
   };
 
   const formatScheduledTime = (date: string, time: string) => {
@@ -156,24 +161,25 @@ export default function CartModal({ open, onClose }: CartModalProps) {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    
+
     let dateStr;
-    if (date === today.toISOString().split('T')[0]) {
+    if (date === today.toISOString().split("T")[0]) {
       dateStr = "Today";
-    } else if (date === tomorrow.toISOString().split('T')[0]) {
+    } else if (date === tomorrow.toISOString().split("T")[0]) {
       dateStr = "Tomorrow";
     } else {
-      dateStr = dateObj.toLocaleDateString('en-US', { 
-        weekday: 'short', 
-        month: 'short', 
-        day: 'numeric' 
+      dateStr = dateObj.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
       });
     }
 
-    const [hour, minute] = time.split(':');
+    const [hour, minute] = time.split(":");
     const hourNum = parseInt(hour);
-    const ampm = hourNum >= 12 ? 'PM' : 'AM';
-    const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
+    const ampm = hourNum >= 12 ? "PM" : "AM";
+    const displayHour =
+      hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
     const timeStr = `${displayHour}:${minute} ${ampm}`;
 
     return `${dateStr} at ${timeStr}`;
@@ -267,31 +273,32 @@ export default function CartModal({ open, onClose }: CartModalProps) {
   }, [open]);
 
   if (!open) return null;
-
   return (
     <>
       <div
-        className="fixed inset-0 bg-opacity-20 backdrop-blur-sm z-50 transition-opacity cursor-pointer"
+        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity cursor-pointer"
         onClick={onClose}
       />
-      {/* Modal */}
+      {/* Enhanced responsive modal */}
       <aside
-        className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 transform translate-x-0 rounded-l-2xl"
+        className="fixed top-0 right-0 h-full w-full sm:max-w-md lg:max-w-lg bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 transform translate-x-0 sm:rounded-l-2xl overflow-hidden"
         style={{ boxShadow: "0 8px 32px rgba(80, 80, 120, 0.18)" }}
       >
-        {/* Header */}
-        <div className="bg-[#6B46C1] text-white px-8 py-6 rounded-tl-2xl rounded-tr-0 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">My Cart</h2>
+        {/* Enhanced responsive header */}
+        <div className="bg-[#6B46C1] text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-5 lg:py-6 sm:rounded-tl-2xl flex items-center justify-between safe-area-inset">
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold">
+            My Cart
+          </h2>
           <button
             onClick={onClose}
-            className="text-white text-2xl font-bold focus:outline-none cursor-pointer"
+            className="text-white text-xl sm:text-2xl font-bold focus:outline-none cursor-pointer p-1 hover:bg-white/10 rounded-full transition-colors btn-touch"
           >
             &times;
           </button>
         </div>
-        {/* Cart Items or Coupon Selector */}
-        <div className="p-6 flex-1 overflow-y-auto">
-          {" "}
+
+        {/* Enhanced responsive cart content */}
+        <div className="px-3 sm:px-4 lg:px-6 py-4 sm:py-5 lg:py-6 flex-1 overflow-y-auto modal-scrollbar-hide">
           {showCoupons ? (
             <CouponSelector
               onBack={() => setShowCoupons(false)}
@@ -303,15 +310,16 @@ export default function CartModal({ open, onClose }: CartModalProps) {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center bg-white rounded-xl shadow p-4 mb-6"
+                  className="flex items-center bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 mb-3 sm:mb-4 lg:mb-6"
                 >
-                  <div className="w-16 h-16 relative mr-4 bg-gray-100 rounded-lg flex items-center justify-center">
-                    {" "}
+                  {/* Responsive product image */}
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 relative mr-3 sm:mr-4 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Image
                       src={item.imageUrl || "/assets/images/products/milk.png"}
                       alt={item.name}
                       fill
-                      className="object-contain rounded-lg p-1"
+                      className="object-contain rounded-lg p-0.5 sm:p-1"
+                      sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.onerror = null;
@@ -319,24 +327,26 @@ export default function CartModal({ open, onClose }: CartModalProps) {
                       }}
                     />
                   </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-gray-900 leading-tight">
+
+                  {/* Responsive product info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium sm:font-semibold text-gray-900 leading-tight text-sm sm:text-base line-clamp-2">
                       {item.name}
                     </div>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
                       <button
-                        className="w-7 h-7 rounded-full text-gray-800 bg-gray-100 text-lg cursor-pointer"
+                        className="w-6 h-6 sm:w-7 sm:h-7 rounded-full text-gray-800 bg-gray-100 text-sm sm:text-base cursor-pointer hover:bg-gray-200 transition-colors btn-touch flex items-center justify-center"
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
                       >
                         -
                       </button>
-                      <span className="px-2 text-gray-800">
+                      <span className="px-1 sm:px-2 text-gray-800 text-sm sm:text-base font-medium min-w-[20px] text-center">
                         {item.quantity}
                       </span>
                       <button
-                        className="w-7 h-7 rounded-full bg-gray-100 text-gray-800 text-lg cursor-pointer"
+                        className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-100 text-gray-800 text-sm sm:text-base cursor-pointer hover:bg-gray-200 transition-colors btn-touch flex items-center justify-center"
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
@@ -345,7 +355,9 @@ export default function CartModal({ open, onClose }: CartModalProps) {
                       </button>
                     </div>
                   </div>
-                  <div className="font-semibold text-gray-900 ml-4">
+
+                  {/* Responsive price */}
+                  <div className="font-semibold text-gray-900 ml-2 sm:ml-4 text-sm sm:text-base lg:text-lg whitespace-nowrap">
                     ₹{item.basePrice * item.quantity}
                   </div>
                 </div>
@@ -435,19 +447,22 @@ export default function CartModal({ open, onClose }: CartModalProps) {
                       {scheduledDelivery ? "Change" : "Schedule"}
                     </button>
                   </div>
-                  
+
                   {scheduledDelivery ? (
                     <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200">
                       <div className="flex items-center gap-2 text-[#6B46C1]">
                         <FiClock className="h-5 w-5" />
                         <span className="font-medium">
-                          {formatScheduledTime(scheduledDelivery.date, scheduledDelivery.time)}
+                          {formatScheduledTime(
+                            scheduledDelivery.date,
+                            scheduledDelivery.time
+                          )}
                         </span>
                       </div>
                     </div>
                   ) : (
                     <div className="flex flex-col gap-2">
-                      <button 
+                      <button
                         className="py-3 rounded-lg bg-[#E9E3FF] text-[#6B46C1] font-medium cursor-pointer flex items-center justify-center gap-2"
                         onClick={() => setScheduleModalOpen(true)}
                       >

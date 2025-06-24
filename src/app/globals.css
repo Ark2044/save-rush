@@ -6,7 +6,7 @@
   --primary-text: #b3ff53;
   --primary-purple: #542bc9;
   --secondary-purple: #291563;
-  --accent-lime: #9BF00B;
+  --accent-lime: #9bf00b;
 }
 
 .brandname {
@@ -31,15 +31,23 @@
 }
 
 .theme-gradient {
-  background: linear-gradient(180deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--primary-purple) 0%,
+    var(--secondary-purple) 100%
+  );
 }
 
 .theme-gradient-light {
-  background: linear-gradient(135deg, #6B46C1 0%, #8B5CF6 50%, #A855F7 100%);
+  background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 50%, #a855f7 100%);
 }
 
 .theme-gradient-card {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(107, 70, 193, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 100%
+  );
   border: 1px solid rgba(107, 70, 193, 0.2);
 }
 
@@ -514,5 +522,413 @@ body {
   .card-responsive {
     border-radius: 1rem;
     padding: 2rem;
+  }
+}
+
+/* Enhanced responsive utilities for 2024 */
+@media (max-width: 374px) {
+  /* Ultra small phones */
+  .text-ultra-sm {
+    font-size: 0.6rem;
+    line-height: 0.8rem;
+  }
+
+  .container-ultra-sm {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Extra small screens (phones in portrait) */
+@media (min-width: 375px) and (max-width: 474px) {
+  .container-xs {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Small tablets and large phones */
+@media (min-width: 640px) and (max-width: 767px) {
+  .text-tablet-sm {
+    font-size: 0.95rem;
+    line-height: 1.4rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container-tablet {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .grid-tablet-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-tablet-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Laptop/Desktop */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .container-laptop {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .container-desktop {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Ultra wide screens */
+@media (min-width: 1536px) {
+  .container-ultrawide {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .text-ultrawide {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+/* Responsive aspect ratios */
+.aspect-square-responsive {
+  aspect-ratio: 1 / 1;
+}
+
+@media (min-width: 768px) {
+  .aspect-video-md {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Responsive gap utilities */
+.gap-responsive {
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .gap-responsive {
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .gap-responsive {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gap-responsive {
+    gap: 1.5rem;
+  }
+}
+
+/* Responsive flex layouts */
+.flex-stack-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .flex-stack-mobile {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+
+.flex-wrap-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .flex-wrap-responsive {
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .flex-wrap-responsive {
+    gap: 1rem;
+  }
+}
+
+/* Typography responsive utilities */
+.heading-responsive {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+@media (min-width: 640px) {
+  .heading-responsive {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading-responsive {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-responsive {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+.subheading-responsive {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .subheading-responsive {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .subheading-responsive {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+/* Responsive button sizes */
+.btn-responsive {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .btn-responsive {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    border-radius: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .btn-responsive {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    border-radius: 0.75rem;
+  }
+}
+
+/* Enhanced mobile optimization */
+@media (max-width: 640px) {
+  /* Improve touch targets on mobile */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better mobile spacing */
+  .mobile-spacing {
+    padding: 1rem 0.75rem;
+  }
+
+  /* Mobile-friendly forms */
+  .mobile-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.875rem;
+  }
+}
+
+/* Enhanced mobile optimization and performance */
+@media (max-width: 374px) {
+  /* Ultra small devices */
+  .ultra-small-text {
+    font-size: 0.625rem;
+    line-height: 0.875rem;
+  }
+
+  .ultra-small-spacing {
+    padding: 0.375rem;
+  }
+
+  .ultra-small-gap {
+    gap: 0.25rem;
+  }
+}
+
+/* Improved loading states for better UX */
+.skeleton-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s infinite;
+}
+
+@keyframes skeleton-wave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced focus styles for accessibility */
+.focus-visible:focus-visible {
+  outline: 2px solid #6b46c1;
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
+
+/* Better image loading states */
+.image-loading {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Improved button states for mobile */
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile devices - remove hover effects */
+  .hover-mobile-none:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Enhance active states for mobile */
+  .btn-mobile-active:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* Dark mode preparations */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-ready {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --card: #1e293b;
+    --card-foreground: #f1f5f9;
+    --primary: #8b5cf6;
+    --primary-foreground: #f1f5f9;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast {
+    border: 2px solid;
+    box-shadow: none;
+  }
+}
+
+/* RTL support preparations */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Print styles */
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-visible {
+    display: block !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+}
+
+/* Landscape mobile optimization */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+  .landscape-mobile-adjust {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .landscape-mobile-header {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-appearance: none) {
+  .ios-optimized input[type="search"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.5rem;
+  }
+
+  .ios-optimized button {
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Android specific optimizations */
+@media screen and (-webkit-min-device-pixel-ratio: 1) {
+  .android-optimized {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
