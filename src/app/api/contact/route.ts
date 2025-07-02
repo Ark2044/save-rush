@@ -14,15 +14,15 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-        pass: process.env.NEXT_PUBLIC_SUPPORT_EMAIL_PASS,
+        user: process.env.SUPPORT_EMAIL,
+        pass: process.env.SUPPORT_EMAIL_PASS,
       },
     });
 
     // email content
     const mailOptions = {
-      from: `"SaveRush Support" <${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}>`,
-      to: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+      from: `"SaveRush Support" <${process.env.SUPPORT_EMAIL}>`,
+      to: process.env.SUPPORT_EMAIL,
       replyTo: email,
       subject: `New Contact Message: ${subject}`,
       text: `You have received a new message from SaveRush contact form:

@@ -3,55 +3,7 @@
 import { useState } from "react";
 import { Twitter, Instagram, Facebook, Youtube } from "lucide-react";
 
-type FAQCategory = "Orders" | "Payments" | "Partnership";
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
-const faqData: Record<FAQCategory, FAQItem[]> = {
-  Orders: [
-    {
-      question: "How do I place an order?",
-      answer:
-        "Browse restaurants on the app or website, add items to your cart, and proceed to checkout to place your order.",
-    },
-    {
-      question: "Can I cancel or modify my order?",
-      answer:
-        "Orders can be modified or canceled within 2 minutes of placing them. After that, cancellations depend on the restaurant's policy.",
-    },
-  ],
-  Payments: [
-    {
-      question: "What payment methods are accepted?",
-      answer:
-        "We accept credit/debit cards, UPI, net banking, and popular wallets like Paytm and PhonePe.",
-    },
-    {
-      question: "I was charged but didn’t receive my order. What should I do?",
-      answer:
-        "Please contact our support team immediately. We’ll verify the transaction and process a refund or re-delivery if eligible.",
-    },
-  ],
-  Partnership: [
-    {
-      question: "How can I partner my restaurant with SaveRush?",
-      answer:
-        "You can fill out the partner registration form on our website. Our team will reach out to you within 2–3 business days.",
-    },
-    {
-      question: "Is there a fee to become a SaveRush partner?",
-      answer:
-        "We do not charge any upfront fees. A small commission is deducted per order to support platform operations.",
-    },
-  ],
-};
-
 export default function ContactPage() {
-  const [activeTab, setActiveTab] = useState<FAQCategory>("Orders");
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -72,43 +24,41 @@ export default function ContactPage() {
     setFormData({ ...formData, [name]: value });
   };
 
- const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  setResult("Sending...");
-  setResultType("info");
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setResult("Sending...");
+    setResultType("info");
 
-  try {
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.success) {
-      setResult("Message Sent Successfully!");
-      setResultType("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } else {
-      
-      setResult("Something went wrong!");
+      if (data.success) {
+        setResult("Message Sent Successfully!");
+        setResultType("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setResult("Something went wrong!");
+        setResultType("error");
+      }
+    } catch (error) {
+      console.log(error);
+      setResult("Network Error");
       setResultType("error");
     }
-  } catch (error) {
-    console.log(error)
-    setResult("Network Error");
-    setResultType("error");
-  }
 
-  setTimeout(() => {
-    setResult("");
-    setResultType("");
-  }, 4000);
-};
-
+    setTimeout(() => {
+      setResult("");
+      setResultType("");
+    }, 4000);
+  };
 
   return (
     <div>
@@ -147,7 +97,7 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
-                  htmlFor="subject"
+                  htmlFor="name"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Name <span className="text-red-500">*</span>
@@ -155,6 +105,7 @@ export default function ContactPage() {
                 <input
                   type="text"
                   name="name"
+                  id="name"
                   value={formData.name}
                   onChange={handleChange}
                   className="border  border-gray-300 p-2 rounded w-full"
@@ -163,7 +114,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <label
-                  htmlFor="subject"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Email <span className="text-red-500">*</span>
@@ -171,6 +122,7 @@ export default function ContactPage() {
                 <input
                   type="email"
                   name="email"
+                  id="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="border border-gray-300 p-2 rounded w-full"
@@ -187,6 +139,7 @@ export default function ContactPage() {
               </label>
               <select
                 name="subject"
+                id="subject"
                 value={formData.subject}
                 onChange={handleChange}
                 className="border border-gray-300 p-2 rounded w-full text-gray-700"
@@ -211,6 +164,7 @@ export default function ContactPage() {
               </label>
               <textarea
                 name="message"
+                id="message"
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
@@ -247,109 +201,110 @@ export default function ContactPage() {
         {/* Right - Contact Information */}
         <div>
           <div>
-  <h2 className="text-3xl font-bold text-[#2e00b2] underline-offset-4 mb-4">
-    Contact Information
-  </h2>
-  <p className="mb-6 text-gray-700">
-    Our team is available to assist you with any questions or concerns. Here's how you can reach us.
-  </p>
+            <h2 className="text-3xl font-bold text-[#2e00b2] underline-offset-4 mb-4">
+              Contact Information
+            </h2>
+            <p className="mb-6 text-gray-700">
+              Our team is available to assist you with any questions or
+              concerns. Here's how you can reach us.
+            </p>
 
-  <div className="bg-white shadow rounded-lg p-6 space-y-6">
-    {/* Main Office */}
-    <div className="flex items-start gap-4">
-      <div className="bg-green-100 rounded-full p-2">
-        <svg
-          className="h-6 w-6 text-red-600"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 2a6 6 0 00-6 6c0 4.125 6 10 6 10s6-5.875 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </div>
-      <div>
-        <h3 className="font-semibold text-lg text-slate-600">
-          Main Office
-        </h3>
-        <p className="text-gray-700 text-sm">
-          E/504, Veena Beena Apartments
-          <br />
-          Sewri, Mumbai 400015
-        </p>
-      </div>
-    </div>
+            <div className="bg-white shadow rounded-lg p-6 space-y-6">
+              {/* Main Office */}
+              <div className="flex items-start gap-4">
+                <div className="bg-green-100 rounded-full p-2">
+                  <svg
+                    className="h-6 w-6 text-red-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 2a6 6 0 00-6 6c0 4.125 6 10 6 10s6-5.875 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-slate-600">
+                    Main Office
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    E/504, Veena Beena Apartments
+                    <br />
+                    Sewri, Mumbai 400015
+                  </p>
+                </div>
+              </div>
 
-    {/* Email Us */}
-    <div className="flex items-start gap-4">
-      <div className="bg-green-100 rounded-full p-2">
-        <svg
-          className="h-6 w-6 text-indigo-500"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v1l-10 6L2 5V4zm0 3.236l9.445 5.667a1 1 0 001.11 0L22 7.236V20a2 2 0 01-2 2H4a2 2 0 01-2-2V7.236z" />
-        </svg>
-      </div>
-      <div>
-        <h3 className="font-semibold text-lg text-slate-600">
-          Email Us
-        </h3>
-        <p className="text-gray-700 text-sm">
-          query.saverush@gmail.com
-        </p>
-      </div>
-    </div>
+              {/* Email Us */}
+              <div className="flex items-start gap-4">
+                <div className="bg-green-100 rounded-full p-2">
+                  <svg
+                    className="h-6 w-6 text-indigo-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v1l-10 6L2 5V4zm0 3.236l9.445 5.667a1 1 0 001.11 0L22 7.236V20a2 2 0 01-2 2H4a2 2 0 01-2-2V7.236z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-slate-600">
+                    Email Us
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    query.saverush@gmail.com
+                  </p>
+                </div>
+              </div>
 
-    {/* Call Us */}
-    <div className="flex items-start gap-4">
-      <div className="bg-green-100 rounded-full p-2">
-        <svg
-          className="h-6 w-6 text-green-700"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M2 3.5A1.5 1.5 0 013.5 2h3A1.5 1.5 0 018 3.5V6A1.5 1.5 0 016.5 7.5H5.87A14.95 14.95 0 0012 18.13V16.5A1.5 1.5 0 0113.5 15h2.5A1.5 1.5 0 0117.5 16.5v3A1.5 1.5 0 0116 21H15.5C7.44 21 2 15.56 2 7.5V3.5z" />
-        </svg>
-      </div>
-      <div>
-        <h3 className="font-semibold text-lg text-slate-600">
-          Call Us
-        </h3>
-        <p className="text-gray-700 text-sm">
-          +91 8104642696
-          <br />
-          +91 8928779836
-        </p>
-      </div>
-    </div>
+              {/* Call Us */}
+              <div className="flex items-start gap-4">
+                <div className="bg-green-100 rounded-full p-2">
+                  <svg
+                    className="h-6 w-6 text-green-700"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M2 3.5A1.5 1.5 0 013.5 2h3A1.5 1.5 0 018 3.5V6A1.5 1.5 0 016.5 7.5H5.87A14.95 14.95 0 0012 18.13V16.5A1.5 1.5 0 0113.5 15h2.5A1.5 1.5 0 0117.5 16.5v3A1.5 1.5 0 0116 21H15.5C7.44 21 2 15.56 2 7.5V3.5z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-slate-600">
+                    Call Us
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    +91 8104642696
+                    <br />
+                    +91 8928779836
+                  </p>
+                </div>
+              </div>
 
-    {/* Hours */}
-    <div className="flex items-start gap-4">
-      <div className="bg-green-100 rounded-full p-2">
-        <svg
-          className="h-6 w-6 text-yellow-600"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 1a1 1 0 01.993.883L13 2v1.055a9.001 9.001 0 018 8.945 1 1 0 01-2 0 7 7 0 10-7 7 1 1 0 010 2 9 9 0 010-18zm1 9V6a1 1 0 00-2 0v5a1 1 0 00.293.707l3 3a1 1 0 001.414-1.414L13 10z" />
-        </svg>
-      </div>
-      <div>
-        <h3 className="font-semibold text-lg text-slate-600">
-          Hours
-        </h3>
-        <p className="text-gray-700 text-sm">
-          Monday to Friday: 2 PM – 10 PM
-          <br />
-          Saturday – Sunday: 10 AM – 10 PM
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+              {/* Hours */}
+              <div className="flex items-start gap-4">
+                <div className="bg-green-100 rounded-full p-2">
+                  <svg
+                    className="h-6 w-6 text-yellow-600"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 1a1 1 0 01.993.883L13 2v1.055a9.001 9.001 0 018 8.945 1 1 0 01-2 0 7 7 0 10-7 7 1 1 0 010 2 9 9 0 010-18zm1 9V6a1 1 0 00-2 0v5a1 1 0 00.293.707l3 3a1 1 0 001.414-1.414L13 10z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg text-slate-600">
+                    Hours
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    Monday to Friday: 2 PM – 10 PM
+                    <br />
+                    Saturday – Sunday: 10 AM – 10 PM
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="text-center mt-6 w-fit px-0.5">
             <h2 className="text-xl font-semibold text-blue-800 mb-3 text-start tracking-wide">
@@ -387,7 +342,7 @@ export default function ContactPage() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -399,8 +354,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-
-  
     </div>
   );
 }
