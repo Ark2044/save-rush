@@ -103,7 +103,7 @@ export default function DailyDeals() {
 
     setTimeLeft(initialTimeLeft);
 
-    // Update countdown every minute
+    // Update countdown less frequently to reduce re-renders
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
         const updated = { ...prev };
@@ -113,11 +113,11 @@ export default function DailyDeals() {
             .split("h ")
             .map((part) => parseInt(part.replace(/[^0-9]/g, "")));
 
-          let newMinutes = minutes - 1;
+          let newMinutes = minutes - 5; // Decrease by 5 minutes instead of 1
           let newHours = hours;
 
           if (newMinutes < 0) {
-            newMinutes = 59;
+            newMinutes = 55;
             newHours -= 1;
           }
 
@@ -131,16 +131,16 @@ export default function DailyDeals() {
 
         return updated;
       });
-    }, 60000); // Update every minute
+    }, 5 * 60 * 1000); // Update every 5 minutes instead of 1 minute
 
     return () => clearInterval(interval);
   }, [deals]);
 
   const handleAddToCart = async (deal: Deal) => {
     if (addingStates[deal.id]) return; // Prevent multiple clicks
-    
-    setAddingStates(prev => ({ ...prev, [deal.id]: true }));
-    
+
+    setAddingStates((prev) => ({ ...prev, [deal.id]: true }));
+
     try {
       await addToCart({
         id: deal.id,
@@ -154,7 +154,7 @@ export default function DailyDeals() {
       // Error toast is handled in the cart context
     } finally {
       setTimeout(() => {
-        setAddingStates(prev => ({ ...prev, [deal.id]: false }));
+        setAddingStates((prev) => ({ ...prev, [deal.id]: false }));
       }, 700);
     }
   };

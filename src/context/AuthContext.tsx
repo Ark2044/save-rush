@@ -100,51 +100,65 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setGuestId(guestTokenCookie);
         setIsGuest(true);
       }
-    } // Listen for auth state changes
+    }
+
+    // Listen for auth state changes
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log("Auth state changed:", user?.phoneNumber);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Auth state changed:", user?.phoneNumber);
+      }
       setUser(user);
 
       if (user) {
         // User is authenticated, not a guest
         setIsGuest(false);
-        
+
         // ALWAYS set firebase-token cookie when user is authenticated
         setCookie("firebase-token", "authenticated", 604800);
-        
+
         try {
-          console.log("Exchanging Firebase token for JWT token");
+          if (process.env.NODE_ENV === "development") {
+            console.log("Exchanging Firebase token for JWT token");
+          }
 
           // Exchange Firebase authentication for backend JWT token
           const backendResponse = await authService.loginWithFirebase(user);
 
           if (backendResponse.token) {
-            console.log("Setting JWT token in cookie");
+            if (process.env.NODE_ENV === "development") {
+              console.log("Setting JWT token in cookie");
+            }
             setCookie("jwt-token", backendResponse.token, 604800);
 
-            // Set up token refresh timer (JWT tokens typically have shorter expiry)
+            // Set up token refresh timer (increased interval to reduce requests)
             refreshTimer = setInterval(async () => {
               if (auth.currentUser) {
                 try {
-                  console.log("Refreshing JWT token");
+                  if (process.env.NODE_ENV === "development") {
+                    console.log("Refreshing JWT token");
+                  }
                   const refreshResponse = await authService.loginWithFirebase(
                     auth.currentUser
                   );
                   if (refreshResponse.token) {
                     setCookie("jwt-token", refreshResponse.token, 604800);
-                    console.log("JWT token refreshed successfully");
+                    if (process.env.NODE_ENV === "development") {
+                      console.log("JWT token refreshed successfully");
+                    }
                   }
                 } catch (error) {
                   console.error("Error refreshing JWT token:", error);
                 }
               } else {
-                console.log("No current user to refresh token");
+                if (process.env.NODE_ENV === "development") {
+                  console.log("No current user to refresh token");
+                }
                 if (refreshTimer) {
                   clearInterval(refreshTimer);
                   refreshTimer = null;
                 }
               }
-            }, 25 * 60 * 1000); // 25 minutes (JWT tokens expire in 30 minutes)
+            }, 50 * 60 * 1000); // 50 minutes (reduced frequency from 25 minutes)
           } else {
             console.warn(
               "No JWT token received from backend, continuing with Firebase auth only"

@@ -8,7 +8,7 @@ export default function QuickDeliveryBanner() {
   const { currentLocation, openLocationModal } = useLocation();
   const [countdown, setCountdown] = useState({ minutes: 10, seconds: 0 });
 
-  // Add a countdown effect for demonstration
+  // Add a countdown effect with reduced frequency
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -21,7 +21,7 @@ export default function QuickDeliveryBanner() {
           return { minutes: 10, seconds: 0 };
         }
       });
-    }, 1000);
+    }, 5000); // Update every 5 seconds instead of 1 second
     return () => clearInterval(timer);
   }, []);
 
@@ -50,8 +50,7 @@ export default function QuickDeliveryBanner() {
             </h2>
             <p className="text-sm md:text-base opacity-90 mb-4 md:mb-0 max-w-xl drop-shadow-sm">
               We deliver groceries, fresh produce, and daily essentials in
-              minutes. Just set your location and we'll rush your order to
-              you!
+              minutes. Just set your location and we'll rush your order to you!
             </p>
           </div>
 

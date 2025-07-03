@@ -1,7 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { FiStar, FiChevronLeft, FiChevronRight, FiMessageSquare } from "react-icons/fi";
+import {
+  FiStar,
+  FiChevronLeft,
+  FiChevronRight,
+  FiMessageSquare,
+} from "react-icons/fi";
 
 interface Testimonial {
   id: string;
@@ -60,20 +65,20 @@ export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Auto-rotate testimonials
+  // Auto-rotate testimonials with reduced frequency
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % testimonials.length);
-    }, 5000);
+    }, 10000); // Changed from 5000 to 10000 (10 seconds)
 
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
   const goToPrevious = () => {
     setIsAutoPlaying(false);
-    setActiveIndex((current) => 
+    setActiveIndex((current) =>
       current === 0 ? testimonials.length - 1 : current - 1
     );
   };
@@ -107,7 +112,7 @@ export default function Testimonials() {
         >
           <FiChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
         </button>
-        
+
         <button
           onClick={goToNext}
           className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-purple-600 transition-colors group"
@@ -133,8 +138,10 @@ export default function Testimonials() {
                           className="object-cover"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            target.nextElementSibling?.classList.remove('hidden');
+                            target.style.display = "none";
+                            target.nextElementSibling?.classList.remove(
+                              "hidden"
+                            );
                           }}
                         />
                       ) : null}
@@ -149,7 +156,9 @@ export default function Testimonials() {
                         {testimonial.name}
                       </h3>
                       {testimonial.location && (
-                        <p className="text-gray-500 text-sm mb-2">{testimonial.location}</p>
+                        <p className="text-gray-500 text-sm mb-2">
+                          {testimonial.location}
+                        </p>
                       )}
                       <div className="flex items-center gap-2">
                         <div className="flex items-center">
@@ -157,8 +166,8 @@ export default function Testimonials() {
                             <FiStar
                               key={i}
                               className={`w-4 h-4 ${
-                                i < testimonial.rating 
-                                  ? "text-yellow-400 fill-current" 
+                                i < testimonial.rating
+                                  ? "text-yellow-400 fill-current"
                                   : "text-gray-300"
                               }`}
                             />
@@ -192,8 +201,8 @@ export default function Testimonials() {
                 setActiveIndex(index);
               }}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === activeIndex 
-                  ? "bg-purple-600 scale-125" 
+                index === activeIndex
+                  ? "bg-purple-600 scale-125"
                   : "bg-gray-300 hover:bg-purple-300"
               }`}
               aria-label={`Go to testimonial ${index + 1}`}

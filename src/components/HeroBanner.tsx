@@ -2,7 +2,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLocation } from "@/context/LocationContext";
-import { FiClock, FiChevronLeft, FiChevronRight, FiMapPin } from 'react-icons/fi';
+import {
+  FiClock,
+  FiChevronLeft,
+  FiChevronRight,
+  FiMapPin,
+} from "react-icons/fi";
 import ScheduleOrderModal from "./ScheduleOrderModal";
 import toast from "react-hot-toast";
 
@@ -53,13 +58,13 @@ export default function HeroBanner() {
   const [isPaused, setIsPaused] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
 
-  // Auto slide change with pause on hover
+  // Auto slide change with reduced frequency
   useEffect(() => {
     if (isPaused) return;
-    
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 10000); // Changed from 5000 to 10000 (10 seconds)
 
     return () => clearInterval(timer);
   }, [isPaused]);
@@ -80,12 +85,12 @@ export default function HeroBanner() {
         return;
       }
 
-      totalSeconds -= 1;
+      totalSeconds -= 5; // Decrease by 5 seconds instead of 1
       const mins = Math.floor(totalSeconds / 60);
       const secs = totalSeconds % 60;
 
       setTimeLeft(`${mins}:${secs.toString().padStart(2, "0")}`);
-    }, 1000);
+    }, 5000); // Update every 5 seconds instead of 1 second
 
     return () => clearInterval(intervalId);
   }, [currentLocation]);
@@ -99,7 +104,9 @@ export default function HeroBanner() {
   };
 
   const handleScheduleOrder = (date: string, time: string) => {
-    toast.success(`Order scheduled for ${new Date(date).toLocaleDateString()} at ${time}`);
+    toast.success(
+      `Order scheduled for ${new Date(date).toLocaleDateString()} at ${time}`
+    );
   };
 
   return (
@@ -107,7 +114,7 @@ export default function HeroBanner() {
       <div className="container-responsive max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
           {/* Enhanced Main carousel - Responsive height and layout */}
-          <div 
+          <div
             className="w-full lg:w-3/4 relative h-40 xs:h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg sm:rounded-xl overflow-hidden group"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
@@ -128,7 +135,7 @@ export default function HeroBanner() {
                   {/* Responsive decorative elements */}
                   <div className="absolute -right-4 sm:-right-8 -top-4 sm:-top-8 w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white opacity-10 rounded-full"></div>
                   <div className="absolute left-1/4 sm:left-1/3 -bottom-3 sm:-bottom-6 w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white opacity-5 rounded-full"></div>
-                  
+
                   <div className="text-white max-w-[60%] sm:max-w-xs z-10">
                     <h2 className="text-sm xs:text-base sm:text-xl md:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 drop-shadow-lg leading-tight">
                       {slide.title}
@@ -178,8 +185,8 @@ export default function HeroBanner() {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 btn-touch ${
-                    index === currentSlide 
-                      ? "bg-white w-6 sm:w-8 shadow-lg" 
+                    index === currentSlide
+                      ? "bg-white w-6 sm:w-8 shadow-lg"
                       : "bg-white/50 w-1.5 sm:w-2 hover:bg-white/70"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
@@ -193,17 +200,21 @@ export default function HeroBanner() {
             {/* Responsive decorative elements */}
             <div className="absolute -right-3 sm:-right-6 -top-3 sm:-top-6 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white opacity-10 rounded-full"></div>
             <div className="absolute left-1 sm:left-2 -bottom-2 sm:-bottom-4 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-400 opacity-20 rounded-full"></div>
-            
+
             <div className="relative z-10">
               <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
                 <FiClock className="h-3 w-3 xs:h-4 xs:w-4 sm:h-5 sm:w-5 text-[#9BF00B]" />
-                <h3 className="text-sm xs:text-base sm:text-lg font-bold">Delivery in</h3>
+                <h3 className="text-sm xs:text-base sm:text-lg font-bold">
+                  Delivery in
+                </h3>
               </div>
-              <div className="text-2xl xs:text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-[#9BF00B] drop-shadow-lg">{timeLeft}</div>
+              <div className="text-2xl xs:text-3xl sm:text-4xl font-bold mb-2 sm:mb-3 text-[#9BF00B] drop-shadow-lg">
+                {timeLeft}
+              </div>
               <p className="text-xs xs:text-sm opacity-90 line-clamp-2 mb-3 sm:mb-4">
                 {currentLocation?.address || "Select your delivery location"}
               </p>
-              
+
               {/* Responsive action buttons */}
               <div className="flex flex-col gap-1.5 sm:gap-2">
                 <button
@@ -214,7 +225,7 @@ export default function HeroBanner() {
                   <span className="hidden xs:inline">Change Location</span>
                   <span className="xs:hidden">Location</span>
                 </button>
-                
+
                 <button
                   onClick={() => setScheduleModalOpen(true)}
                   className="flex items-center justify-center gap-1 sm:gap-2 bg-[#9BF00B] text-black px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg hover:bg-[#8AE00A] transition-all text-xs sm:text-sm font-medium btn-touch"

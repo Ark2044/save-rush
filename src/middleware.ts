@@ -8,10 +8,12 @@ export function middleware(request: NextRequest) {
   // Create a guest token if one doesn't exist
   const guestToken = request.cookies.get("guest-token");
 
-  // Debug information
-  console.log(`Middleware check for: ${request.nextUrl.pathname}`);
-  console.log(`Auth token present: ${!!tokenCookie}`);
-  console.log(`Guest token present: ${!!guestToken}`);
+  // Debug information (disabled in production)
+  if (process.env.NODE_ENV === "development") {
+    console.log(`Middleware check for: ${request.nextUrl.pathname}`);
+    console.log(`Auth token present: ${!!tokenCookie}`);
+    console.log(`Guest token present: ${!!guestToken}`);
+  }
 
   // Define auth routes (routes that don't require authentication but are auth-related)
   const isAuthRoute =
@@ -37,23 +39,27 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/payments") ||
     request.nextUrl.pathname.startsWith("/addresses");
 
-  console.log(
-    `Route classification: ${
-      isAuthRoute
-        ? "Auth"
-        : isPublicRoute
-        ? "Public"
-        : isCheckoutRoute
-        ? "Checkout"
-        : isStrictlyProtectedRoute
-        ? "Strictly Protected"
-        : "Other"
-    }`
-  );
+  if (process.env.NODE_ENV === "development") {
+    console.log(
+      `Route classification: ${
+        isAuthRoute
+          ? "Auth"
+          : isPublicRoute
+          ? "Public"
+          : isCheckoutRoute
+          ? "Checkout"
+          : isStrictlyProtectedRoute
+          ? "Strictly Protected"
+          : "Other"
+      }`
+    );
+  }
 
   // If the user is not authenticated and trying to access strictly protected routes
   if (!tokenCookie && isStrictlyProtectedRoute) {
-    console.log("User not authenticated. Redirecting to login");
+    if (process.env.NODE_ENV === "development") {
+      console.log("User not authenticated. Redirecting to login");
+    }
     // Save the current URL to redirect back after login
     const returnUrl = encodeURIComponent(request.nextUrl.pathname);
     return NextResponse.redirect(
@@ -63,14 +69,18 @@ export function middleware(request: NextRequest) {
 
   // If the user is authenticated and trying to access login page
   if (tokenCookie && isAuthRoute) {
-    console.log("User already authenticated. Redirecting from auth page");
+    if (process.env.NODE_ENV === "development") {
+      console.log("User already authenticated. Redirecting from auth page");
+    }
 
     // Check if there's a return URL in the query parameters
     const { searchParams } = new URL(request.url);
     const returnUrl = searchParams.get("returnUrl");
 
     if (returnUrl) {
-      console.log("Redirecting to return URL:", returnUrl);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Redirecting to return URL:", returnUrl);
+      }
       return NextResponse.redirect(
         new URL(decodeURIComponent(returnUrl), request.url)
       );
@@ -97,11 +107,15 @@ export function middleware(request: NextRequest) {
       sameSite: "lax",
     });
 
-    console.log("Created guest token for checkout");
+    if (process.env.NODE_ENV === "development") {
+      console.log("Created guest token for checkout");
+    }
     return response;
   }
 
-  console.log("Middleware allowing request to continue");
+  if (process.env.NODE_ENV === "development") {
+    console.log("Middleware allowing request to continue");
+  }
   return NextResponse.next();
 }
 
