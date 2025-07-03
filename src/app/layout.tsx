@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import ClientLayout from "@/components/ClientLayout";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,9 +36,12 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-gray-50 antialiased overflow-x-hidden`}
       >
-        <Providers>
-          <ClientLayout>{children}</ClientLayout>
-        </Providers>
+        <PerformanceMonitor />
+        <ErrorBoundary>
+          <Providers>
+            <ClientLayout>{children}</ClientLayout>
+          </Providers>
+        </ErrorBoundary>
       </body>
     </html>
   );

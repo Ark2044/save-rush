@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
 import { FiClock, FiPlus } from "react-icons/fi";
@@ -18,7 +18,7 @@ interface ProductCardProps {
   inStock?: boolean;
 }
 
-export default function ProductCard({
+function ProductCard({
   id,
   name,
   description,
@@ -191,3 +191,16 @@ export default function ProductCard({
     </div>
   );
 }
+
+// Export memoized component for better performance
+export default memo(ProductCard, (prevProps, nextProps) => {
+  // Only re-render if essential props have changed
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.name === nextProps.name &&
+    prevProps.basePrice === nextProps.basePrice &&
+    prevProps.discountedPrice === nextProps.discountedPrice &&
+    prevProps.imageUrl === nextProps.imageUrl &&
+    prevProps.inStock === nextProps.inStock
+  );
+});

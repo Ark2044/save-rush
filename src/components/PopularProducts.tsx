@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import ProductCard from "./ProductCard";
 import { Product } from "@/context/SearchContext";
 
@@ -123,7 +123,7 @@ const popularProducts: Product[] = [
   },
 ];
 
-export default function PopularProducts() {
+function PopularProducts() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -253,3 +253,6 @@ export default function PopularProducts() {
     </section>
   );
 }
+
+// Export memoized component for better performance
+export default memo(PopularProducts);

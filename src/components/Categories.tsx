@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { graphqlClient, GET_CATEGORIES } from "@/lib/graphql";
 import { inventoryService } from "@/services";
 import toast from "react-hot-toast";
@@ -30,7 +30,7 @@ interface CategoriesResponse {
   categories: Category[];
 }
 
-export default function Categories() {
+function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -193,3 +193,6 @@ export default function Categories() {
     </div>
   );
 }
+
+// Export memoized component for better performance
+export default memo(Categories);
