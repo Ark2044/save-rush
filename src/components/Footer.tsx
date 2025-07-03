@@ -229,10 +229,10 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3">
               <li>
                 <Link
-                  href="/help"
+                  href="/contact"
                   className="text-purple-100 hover:text-[#9BF00B] text-xs sm:text-sm transition-all hover:translate-x-1"
                 >
-                  Help Center
+                  Contact Us
                 </Link>
               </li>
               <li>

@@ -154,11 +154,10 @@ const inventoryService = {
       // Fall back to REST API if GraphQL fails
       return apiClient.get(`/items/search?q=${encodeURIComponent(query)}`);
     }
-  }
+  },
   /**
    * Get popular or recommended items
-   */,
-  getRecommendedItems: async () => {
+   */ getRecommendedItems: async () => {
     try {
       // Try local Next.js API route first
       const response = await fetch("/api/items/recommended");
@@ -180,7 +179,7 @@ const inventoryService = {
           description: "Fresh ripe avocados (per piece)",
           basePrice: 79,
           discountedPrice: 59,
-          imageUrl: "/assets/images/products/avocado.png",
+          imageUrl: "/assets/images/products/milk.png",
           category: "Fruits & Vegetables",
           subCategory: "Fresh Fruits",
           inStock: true,
@@ -201,7 +200,7 @@ const inventoryService = {
           description: "Freshly baked whole grain bread (400g)",
           basePrice: 45,
           discountedPrice: 40,
-          imageUrl: "/assets/images/products/bread.png",
+          imageUrl: "/assets/images/products/milk.png",
           category: "Bakery",
           subCategory: "Bread",
           inStock: true,
@@ -212,7 +211,7 @@ const inventoryService = {
           description: "Creamy Greek yogurt (500g)",
           basePrice: 120,
           discountedPrice: 99,
-          imageUrl: "/assets/images/products/yogurt.png",
+          imageUrl: "/assets/images/products/milk.png",
           category: "Dairy & Breakfast",
           subCategory: "Yogurt",
           inStock: true,

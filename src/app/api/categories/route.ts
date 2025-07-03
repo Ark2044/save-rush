@@ -5,7 +5,7 @@ const categories = [
   {
     id: "cat1",
     title: "Fruits & Vegetables",
-    imageUrl: "/assets/images/categories/fruits_and_vegetables.png",
+    imageUrl: "/assets/images/categories/vegetables_and_fruits.png",
     subCategories: [
       {
         id: "sub1",
@@ -14,14 +14,14 @@ const categories = [
           {
             id: "item1",
             name: "Organic Avocado",
-            imageUrl: "/assets/images/products/avocado.png",
+            imageUrl: "/assets/images/products/milk.png",
             basePrice: 79,
             inStock: true,
           },
           {
             id: "item2",
             name: "Bananas (1 dozen)",
-            imageUrl: "/assets/images/products/banana.png",
+            imageUrl: "/assets/images/products/milk.png",
             basePrice: 60,
             inStock: true,
           },
@@ -34,7 +34,7 @@ const categories = [
           {
             id: "item3",
             name: "Fresh Tomatoes (1kg)",
-            imageUrl: "/assets/images/products/tomato.png",
+            imageUrl: "/assets/images/ingredients/onion.png",
             basePrice: 45,
             inStock: true,
           },
@@ -45,7 +45,7 @@ const categories = [
   {
     id: "cat2",
     title: "Dairy & Breakfast",
-    imageUrl: "/assets/images/categories/dairy_and_breakfast.png",
+    imageUrl: "/assets/images/categories/bakery_and_dairy.png",
     subCategories: [
       {
         id: "sub3",
@@ -78,7 +78,7 @@ const categories = [
   {
     id: "cat3",
     title: "Bakery",
-    imageUrl: "/assets/images/categories/bakery.png",
+    imageUrl: "/assets/images/categories/bakery_and_dairy.png",
     subCategories: [
       {
         id: "sub5",
@@ -87,7 +87,7 @@ const categories = [
           {
             id: "item6",
             name: "Whole Grain Bread",
-            imageUrl: "/assets/images/products/bread.png",
+            imageUrl: "/assets/images/products/milk.png",
             basePrice: 45,
             inStock: true,
           },
@@ -98,7 +98,7 @@ const categories = [
   {
     id: "cat4",
     title: "Beverages",
-    imageUrl: "/assets/images/categories/beverages.png",
+    imageUrl: "/assets/images/categories/chips_and_namkeen.png",
     subCategories: [
       {
         id: "sub6",
@@ -107,7 +107,7 @@ const categories = [
           {
             id: "item7",
             name: "Green Tea (25 bags)",
-            imageUrl: "/assets/images/products/tea.png",
+            imageUrl: "/assets/images/products/milk.png",
             basePrice: 180,
             inStock: true,
           },

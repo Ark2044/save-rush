@@ -22,7 +22,7 @@ const popularProducts: Product[] = [
     description: "Organic bananas (5-6 pcs/500g)",
     basePrice: 49,
     discountedPrice: 39,
-    imageUrl: "/assets/images/products/banana.png",
+    imageUrl: "/assets/images/products/milk.png",
     category: "Fruits & Vegetables",
     subCategory: "Fresh Fruits",
     inStock: true,
@@ -64,7 +64,7 @@ const popularProducts: Product[] = [
     description: "Moisturizing beauty bar",
     basePrice: 45,
     discountedPrice: 40,
-    imageUrl: "/assets/images/categories/personal_care.png",
+    imageUrl: "/assets/images/categories/chips_and_namkeen.png",
     category: "Personal Care",
     subCategory: "Bath & Body",
     inStock: true,
@@ -74,7 +74,7 @@ const popularProducts: Product[] = [
     name: "Red Bull (250ml)",
     description: "Energy drink",
     basePrice: 125,
-    imageUrl: "/assets/images/products/redbull.png",
+    imageUrl: "/assets/images/products/milk.png",
     category: "Beverages",
     subCategory: "Energy Drinks",
     inStock: true,
@@ -85,7 +85,7 @@ const popularProducts: Product[] = [
     description: "Surface cleaner, Citrus",
     basePrice: 168,
     discountedPrice: 152,
-    imageUrl: "/assets/images/categories/cleaning.png",
+    imageUrl: "/assets/images/categories/chips_and_namkeen.png",
     category: "Household",
     subCategory: "Cleaners",
     inStock: true,
@@ -95,7 +95,7 @@ const popularProducts: Product[] = [
     name: "Britannia Bread",
     description: "Whole wheat bread (400g)",
     basePrice: 45,
-    imageUrl: "/assets/images/products/bread.png",
+    imageUrl: "/assets/images/products/milk.png",
     category: "Dairy & Breakfast",
     subCategory: "Bread",
     inStock: true,
@@ -106,7 +106,7 @@ const popularProducts: Product[] = [
     description: "Farm fresh red tomatoes",
     basePrice: 40,
     discountedPrice: 34,
-    imageUrl: "/assets/images/ingredients/tomato.png",
+    imageUrl: "/assets/images/ingredients/onion.png",
     category: "Fruits & Vegetables",
     subCategory: "Fresh Vegetables",
     inStock: true,
@@ -116,7 +116,7 @@ const popularProducts: Product[] = [
     name: "Maggi Noodles (Pack of 4)",
     description: "2-Minute instant noodles",
     basePrice: 58,
-    imageUrl: "/assets/images/categories/snacks.png",
+    imageUrl: "/assets/images/categories/chips_and_namkeen.png",
     category: "Ready to Cook",
     subCategory: "Instant Noodles",
     inStock: true,
@@ -214,8 +214,12 @@ export default function PopularProducts() {
                 />
               </svg>
             </div>
-            <p className="text-gray-500 font-medium">No products found in this category.</p>
-            <p className="text-gray-400 text-sm mt-1">Try selecting a different category</p>
+            <p className="text-gray-500 font-medium">
+              No products found in this category.
+            </p>
+            <p className="text-gray-400 text-sm mt-1">
+              Try selecting a different category
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

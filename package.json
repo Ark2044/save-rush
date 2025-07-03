@@ -29,6 +29,7 @@
     "@tailwindcss/postcss": "^4",
     "@types/firebase": "^2.4.32",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",

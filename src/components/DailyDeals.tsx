@@ -145,7 +145,7 @@ export default function DailyDeals() {
       await addToCart({
         id: deal.id,
         name: deal.title,
-        imageUrl: deal.imageUrl || "/assets/images/products/default.png",
+        imageUrl: deal.imageUrl || "/assets/images/products/milk.png",
         basePrice: deal.discountedPrice,
       });
       // Success toast is handled in the cart context
@@ -256,7 +256,7 @@ export default function DailyDeals() {
             {/* Enhanced Product Image */}
             <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-gradient-to-br from-gray-50 to-gray-100">
               <Image
-                src={deal.imageUrl || "/assets/images/products/default.png"}
+                src={deal.imageUrl || "/assets/images/products/milk.png"}
                 alt={deal.title}
                 fill
                 sizes="(max-width: 768px) 40vw, 20vw"
@@ -264,7 +264,7 @@ export default function DailyDeals() {
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = "/assets/images/products/default.png";
+                  target.src = "/assets/images/products/milk.png";
                 }}
               />
 

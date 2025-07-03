@@ -52,14 +52,14 @@ const mockOrder: Order = {
       name: "Dairy Milk Chocolate",
       quantity: 1,
       price: 40,
-      imageUrl: "/assets/images/categories/chocolates.png",
+      imageUrl: "/assets/images/categories/chocolates_and_icecream.png",
     },
     {
       id: "5",
       name: "Maggi Noodles",
       quantity: 3,
       price: 14,
-      imageUrl: "/assets/images/categories/snacks.png",
+      imageUrl: "/assets/images/categories/chips_and_namkeen.png",
     },
   ],
   total: 122,
@@ -90,10 +90,11 @@ export default function TrackOrder() {
       }
 
       setLoading(true);
-      const loadingToast = toast.loading("Loading order details...");      try {
+      const loadingToast = toast.loading("Loading order details...");
+      try {
         // Call the real API service
         const response = await orderService.getOrder(orderId);
-        
+
         if (response && response.order) {
           setOrder(response.order);
           toast.dismiss(loadingToast);
@@ -104,7 +105,7 @@ export default function TrackOrder() {
       } catch (err) {
         console.error("Error fetching order:", err);
         setError("Failed to load order details. Please try again later.");
-        
+
         // Fallback to mock data for demo purposes
         if (orderId === "ORD12345678") {
           setOrder(mockOrder);
@@ -114,8 +115,7 @@ export default function TrackOrder() {
           toast.dismiss(loadingToast);
           toast.error("Order not found");
         }
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -131,24 +131,29 @@ export default function TrackOrder() {
   // Handle cancellation of the order
   const handleCancelOrder = async () => {
     if (!order) return;
-    
+
     try {
       const cancelToast = toast.loading("Cancelling your order...");
-      
+
       // Call the real API to cancel the order
-      const response = await orderService.cancelOrder(order.id, "Customer cancelled");
-      
+      const response = await orderService.cancelOrder(
+        order.id,
+        "Customer cancelled"
+      );
+
       // Update the local order state to show cancelled
       setOrder({
         ...order,
-        status: "cancelled"
+        status: "cancelled",
       });
-      
+
       toast.dismiss(cancelToast);
       toast.success("Order cancelled successfully");
     } catch (error) {
       console.error("Failed to cancel order:", error);
-      toast.error("Failed to cancel order. Please try again or contact customer support.");
+      toast.error(
+        "Failed to cancel order. Please try again or contact customer support."
+      );
     }
   };
   // Helper function to get status step
@@ -521,7 +526,8 @@ export default function TrackOrder() {
             className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
           >
             Back to Orders
-          </button>          {order.status !== "delivered" && order.status !== "cancelled" && (
+          </button>{" "}
+          {order.status !== "delivered" && order.status !== "cancelled" && (
             <button
               onClick={handleCancelOrder}
               className="px-6 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition-colors"

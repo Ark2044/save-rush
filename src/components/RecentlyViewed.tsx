@@ -16,7 +16,7 @@ export default function RecentlyViewed() {
       description: "100% Pure Orange Juice (1L)",
       basePrice: 110,
       discountedPrice: 99,
-      imageUrl: "/assets/images/products/orange-juice.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Beverages",
       subCategory: "Juices",
       inStock: true,
@@ -37,7 +37,7 @@ export default function RecentlyViewed() {
       description: "Liquid detergent (1L)",
       basePrice: 210,
       discountedPrice: 189,
-      imageUrl: "/assets/images/products/detergent.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Household",
       subCategory: "Laundry",
       inStock: true,
@@ -48,7 +48,7 @@ export default function RecentlyViewed() {
       description: "Strong Mint (150g)",
       basePrice: 90,
       discountedPrice: 75,
-      imageUrl: "/assets/images/products/toothpaste.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Personal Care",
       subCategory: "Oral Care",
       inStock: true,
@@ -135,7 +135,7 @@ export default function RecentlyViewed() {
                 </p>
               </div>
             </div>
-            <button 
+            <button
               onClick={clearHistory}
               className="text-red-600 text-sm font-medium hover:text-red-800 flex items-center gap-1 transition-colors group"
             >

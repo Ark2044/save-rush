@@ -19,7 +19,7 @@ export default function PersonalizedRecommendations() {
       description: "Fresh ripe avocados (per piece)",
       basePrice: 79,
       discountedPrice: 59,
-      imageUrl: "/assets/images/products/avocado.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Fruits & Vegetables",
       subCategory: "Fresh Fruits",
       inStock: true,
@@ -40,7 +40,7 @@ export default function PersonalizedRecommendations() {
       description: "Freshly baked whole grain bread (400g)",
       basePrice: 45,
       discountedPrice: 40,
-      imageUrl: "/assets/images/products/bread.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Bakery",
       subCategory: "Bread",
       inStock: true,
@@ -51,7 +51,7 @@ export default function PersonalizedRecommendations() {
       description: "Creamy Greek yogurt (500g)",
       basePrice: 120,
       discountedPrice: 99,
-      imageUrl: "/assets/images/products/yogurt.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Dairy & Breakfast",
       subCategory: "Yogurt",
       inStock: true,
@@ -61,7 +61,7 @@ export default function PersonalizedRecommendations() {
       name: "Green Tea (25 bags)",
       description: "Premium green tea bags",
       basePrice: 180,
-      imageUrl: "/assets/images/products/tea.png",
+      imageUrl: "/assets/images/products/milk.png",
       category: "Beverages",
       subCategory: "Tea & Coffee",
       inStock: true,
@@ -133,7 +133,9 @@ export default function PersonalizedRecommendations() {
             {user ? "Recommended for You" : "Trending Products"}
           </h2>
           <p className="text-gray-600">
-            {user ? "Based on your shopping history" : "Popular items right now"}
+            {user
+              ? "Based on your shopping history"
+              : "Popular items right now"}
           </p>
         </div>
 

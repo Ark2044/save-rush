@@ -43,7 +43,7 @@ const mealCategories: MealCategory[] = [
   {
     id: "4",
     name: "Sandwich",
-    image: "/meals/sandwich.png",
+    image: "/assets/images/meal_options/pizza.png",
     href: "/make-meal/sandwich",
   },
 ];
@@ -52,28 +52,28 @@ const pizzaIngredients: Ingredient[] = [
   {
     id: "1",
     name: "Amul Cheese",
-    image: "/ingredients/amul-cheese.png",
+    image: "/assets/images/ingredients/cheese.png",
     weight: "60g",
     price: 56,
   },
   {
     id: "2",
     name: "Pizza Sauce",
-    image: "/ingredients/pizza-sauce.png",
+    image: "/assets/images/ingredients/sauce.png",
     weight: "250g",
     price: 130,
   },
   {
     id: "3",
     name: "Pizza Base",
-    image: "/ingredients/pizza-base.png",
+    image: "/assets/images/ingredients/base.png",
     weight: "200g",
     price: 40,
   },
   {
     id: "4",
     name: "Cheese",
-    image: "/ingredients/cheese.png",
+    image: "/assets/images/ingredients/cheese.png",
     weight: "200g",
     price: 40,
   },

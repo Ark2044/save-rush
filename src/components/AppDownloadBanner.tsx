@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { FaGooglePlay, FaApple } from 'react-icons/fa';
+import { FaGooglePlay, FaApple } from "react-icons/fa";
 
 export default function AppDownloadBanner() {
   return (
@@ -72,7 +72,7 @@ export default function AppDownloadBanner() {
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.onerror = null;
-                    target.src = "/assets/images/login_screen/login.png";
+                    target.src = "/images/login.png";
                   }}
                 />
               </div>
