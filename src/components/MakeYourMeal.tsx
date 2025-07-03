@@ -25,19 +25,19 @@ const mealCategories: MealCategory[] = [
   {
     id: "1",
     name: "Pizza",
-    image: "/meals/pizza.png",
+    image: "/assets/images/meal_options/pizza.png",
     href: "/make-meal/pizza",
   },
   {
     id: "2",
     name: "Burger",
-    image: "/meals/burger.png",
+    image: "/assets/images/meal_options/burger.png",
     href: "/make-meal/burger",
   },
   {
     id: "3",
     name: "Pasta",
-    image: "/meals/pasta.png",
+    image: "/assets/images/meal_options/pasta.png",
     href: "/make-meal/pasta",
   },
   {
